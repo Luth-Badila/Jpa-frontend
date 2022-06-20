@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { BiX } from 'react-icons/bi';
 import { motion } from 'framer-motion';
+import {IoMdAdd} from 'react-icons/io'; 
 
 import { images } from '../../constants';
+import { UploadImage } from '../../components';
 import './Navbar.scss';
 
 
@@ -43,6 +45,11 @@ const Navbar = () => {
               </ul>
           </motion.div>
         )}
+      </div>
+
+      {/*Upload Image*/}
+      <div className="app__navbar-link">
+       
       </div>
     </nav>
   );

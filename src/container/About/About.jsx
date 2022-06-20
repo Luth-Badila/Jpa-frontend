@@ -21,7 +21,7 @@ const About = () => {
 
   return (
     <>
-      <h2 className="head-text">Kami Melayani <span>Penyablonan</span> <br /> Kaos <span>Dengan Desain Apapun</span>
+      <h2 className="head-text"><span>Kami</span> Melayani <span>Penyablonan</span> <br /> Kaos <span>Dengan</span> Desain <span>Apapun</span>
       </h2>
 
       <div className="app__profiles">

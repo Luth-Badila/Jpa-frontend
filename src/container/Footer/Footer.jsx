@@ -40,7 +40,7 @@ const Footer = () => {
   return (
     <>
       <h2 className="head-text">
-        Sudahi galaumu mari pesan sablonan di tempatku
+        Sudahi <span>galaumu</span> mari <span>pesan</span> sablonan <span>di tempatku</span>
       </h2>
       <div className="app__footer-cards">
         <div className="app__footer-card">

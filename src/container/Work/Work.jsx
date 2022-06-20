@@ -40,7 +40,8 @@ const Work = () => {
 
   return (
     <>
-       <h2 className="head-text">Portofolio Kami <span>Penyablonan</span> <br /> Kaos <span>Dengan Desain Apapun</span>
+       <h2 className="head-text">
+        Beberapa <span>produk</span> yang <span>kami</span> hasilkan
       </h2>
 
       <div className="app__work-filter">
