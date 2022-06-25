@@ -172,13 +172,17 @@ gap: 0.5rem;
 		.title-label {
 			padding: 0.8rem;
 			border-bottom: 4px solid var(--gold-color);
-			border: none;
+			border-top: none;
+			border-right: none;
+			border-left: none;
 			outline: none;
 			background-color: var(--green-color);
 
 			.title-label:focus {
 				border-bottom: var(--gold-color);
-				border: none;
+				border-top: none;
+				border-right: none;
+				border-left: none;
 			}
 		}
 
