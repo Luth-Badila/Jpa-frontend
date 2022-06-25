@@ -6,3 +6,4 @@ export { default as Skills } from './Skills/Skills';
 export { default as Testimonial } from './Testimonial/Testimonial';
 export { default as Upload } from './Upload/Upload';
 export { default as Work } from './Work/Work';
+export { default as Success } from './Success/Success';

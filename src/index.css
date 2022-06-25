@@ -4,13 +4,18 @@
   --font-base: "DM Sans", sans-serif;
 
   --primary-color: #edf2f8;
+  --green-primary-color: #036933;
   --secondary-color: #313bac;
   --black-color: #030303;
+  --green-color: #35db48;
+  --lightGreen-color: #b7f7be;
+  --lightYellow-color: #faef7a;
   --lightGray-color: #e4e4e4;
   --gray-color: #6b7688;
   --brown-color: #46364a;
   --white-color: #ffffff;
   --blue-color: #abc4ff;
+  --gold-color: #FFD700;
 }
 
 * {

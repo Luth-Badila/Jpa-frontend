@@ -9,7 +9,7 @@ const How = () => {
   return (
     <>
       <h2 className="head-text">
-          <span>Bagaimana</span> Cara <br /> memesan <span>sablonan</span>
+          <span>Bagaimana</span> Cara <br /> memesan <span>sablonan ?</span>
       </h2>
 
       <div className="app__how-container">

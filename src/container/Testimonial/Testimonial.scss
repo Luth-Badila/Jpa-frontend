@@ -58,7 +58,7 @@
 
 	h4 {
 		font-weight: 600;
-		color: var(--secondary-color);
+		color: var(--green-color);
 		margin-top: 2rem;
 	}
 
@@ -85,11 +85,11 @@
 		svg {
 			width: 20px;
 			height: 20px;
-			color: var(--secondary-color);
+			color: var(--gold-color);
 		}
 
 		&:hover {
-			background-color: var(--secondary-color);
+			background-color: var(--gold-color);
 
 			svg {
 				color: var(--white-color);

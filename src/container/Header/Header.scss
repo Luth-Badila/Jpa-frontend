@@ -1,6 +1,6 @@
 #home {
 	position: relative;
-	background: url('../../assets/bgIMG.png');
+	background: url('../../assets/bgIMGGreen.png');
 	background-size: cover;
 	background-repeat: repeat;
 	background-position: center;
@@ -61,6 +61,7 @@
 		 padding: 1rem 2rem;
 		 border: var(--white-color);
 		 border-radius: 15px;
+		 background-color: var(--gold-color);
 		 flex-direction: row;
 		 width: auto;
 		 box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -68,7 +69,6 @@
 
 	.tag-cmp1 {
 		margin-top: 3rem;
-		width: 110%;
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
@@ -177,13 +177,15 @@
 	position: relative;
 
 	img {
-		width: 100%;
+		margin-left: 100px;
+		width: 80%;
 		height: 100%;
 		z-index: 1;
     	object-fit: contain;
 	}
 
 	.overlay_circle {
+		margin-left: 30px;
 		position: absolute;
 		left: 0;
 		right: 0;

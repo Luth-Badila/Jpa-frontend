@@ -49,11 +49,11 @@ const Header = () => {
         transition={{ duration: 0.5, delayChildren: 0.5 }}
         className="app__header-img"
       >
-        <img src={images.profile2} alt="profile-bg" className="app__profile-bg"/>
+        <img src={images.bajuPutih} alt="profile-bg" className="app__profile-bg"/>
         <motion.img
            whileInView={{ scale: [0, 1] }}
            transition={{ duration: 1, ease: 'easeInOut' }}
-           src={images.circle}
+           src={images.yellowCircle}
            alt="profile_circle"
            className="overlay_circle"
         />

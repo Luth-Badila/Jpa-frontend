@@ -5,7 +5,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { BiX } from 'react-icons/bi';
 import { motion } from 'framer-motion';
  
-import { Header, About, Footer, Skills, Testimonial, Work, How, Upload } from './container';
+import { Header, About, Footer, Skills, Testimonial, Work, How, Success, Upload } from './container';
 import { images } from './constants';
 import './App.scss';
 
@@ -31,7 +31,7 @@ const App = () => {
                         <Link className="app__navbar-link" to="howToOrder">How To Order</Link>
                     </nav>
                     <div className="app__navbar-add">
-                        <Link className="app__navbar-link" to="uploadimage"><IoMdAdd /></Link>
+                        <Link className="app__navbar-link" to="uploadimage"><img className="arrow" src={images.arrowLogo} alt="logo" /></Link>
                     </div>
                 
 
@@ -52,7 +52,7 @@ const App = () => {
                                     <Link className="app__navbar-link" to="work">Work</Link>
                                     <Link className="app__navbar-link" to="contact">Contact</Link>
                                     <Link className="app__navbar-link" to="howToOrder">How To Order</Link>
-                                    <Link className="app__navbar-link" to="uploadimage"><IoMdAdd /></Link>
+                                    <Link className="app__navbar-link" to="uploadimage"><img className="arrow" src={images.arrowLogo2} alt="logo" /></Link>
                             </nav>
                           </motion.div>
                         )}
@@ -67,6 +67,7 @@ const App = () => {
                     <Route path="/contact" element={<Footer />} />
                     <Route path="/howToOrder" element={<How />} />
                     <Route path="/uploadimage" element={<Upload />} />
+                    <Route path="/success" element={<Success />} />
                 </Routes>
             </Router>
         </>

@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { BiCamera } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 import { AppWrapp, MotionWrap } from '../../wrapper';
 import { images } from '../../constants';
 import { client } from "../../client";
-import './Upload.scss'
+import './Upload.scss';
 
 const Upload = () => {
 
@@ -15,6 +14,7 @@ const Upload = () => {
     const [ title ,setTitle ] = useState('');
     const [ about ,setAbout ] = useState('');
     const [ number, setNumber ] = useState('');
+    const [ address, setAddress ] = useState('');
     const [ fields ,setFields ] = useState(false);
 
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ const Upload = () => {
       }
       client.create(doc)
       .then(() => {
-        navigate('/')
+        navigate('/success')
       })
     } else {
       setFields(true);
@@ -72,7 +72,7 @@ const Upload = () => {
   return (
    <>
      <h2 className="head-text">
-          <span>Bagaimana</span> Cara <br /> memesan <span>sablonan</span>
+          <span>Sudahi</span> galaumu <br /> mari <span>nyablon</span> ditempatku
       </h2>
 
           <div className="app__upload-container">
@@ -126,13 +126,20 @@ const Upload = () => {
                     placeholder="Nomor whatsapp anda"
                     className="title-label"
                   />
+                   <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Alamat lengkap anda"
+                    className="title-label"
+                  />
               </div>
 
 
               <div className="btn-container">
                 <button 
+                  type="button"
                   className="button-17" 
-                  role="button"
                   onClick={savePin}
                 >
                 Kirim
@@ -151,5 +158,5 @@ const Upload = () => {
 export default AppWrapp(
   MotionWrap(Upload, 'app__upload'),
   'upload',
-  'app__primarybg',
+  'app__greenbg',
 );
