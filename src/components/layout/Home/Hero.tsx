@@ -3,11 +3,7 @@ import { images } from "../../../constants";
 
 const leftInfoVariants: Variants = {
   hidden: { x: -100, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: { duration: 0.5 },
-  },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 
 const middleImageVariants: Variants = {
@@ -20,10 +16,7 @@ const middleImageVariants: Variants = {
 
 const circleBgVariants: Variants = {
   hidden: { scale: 0 },
-  visible: {
-    scale: 1,
-    transition: { duration: 1, ease: "easeInOut" },
-  },
+  visible: { scale: 1, transition: { duration: 1, ease: "easeInOut" } },
 };
 
 const scaleVariants: Variants = {
@@ -39,7 +32,7 @@ export default function Hero() {
   return (
     <div
       id="home"
-      className="relative flex flex-col lg:flex-row w-full h-full bg-cover bg-center px-4 lg:px-8 py-24 lg:py-16"
+      className="relative flex flex-col lg:flex-row w-full h-auto bg-cover bg-center px-4 sm:px-6 lg:px-12 py-18 lg:py-40"
     >
       {/* Background Image */}
       <img
@@ -54,28 +47,36 @@ export default function Hero() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="flex-1 flex flex-col items-start justify-start z-10"
+        className="flex flex-col items-start justify-center z-10"
       >
-        <div className="flex flex-col items-end lg:items-end w-full space-y-12">
+        <div className="flex flex-col items-start lg:w-full w-[70%] space-y-8 sm:space-y-10 lg:space-y-12">
           {/* Badge */}
-          <div className="flex items-center bg-yellow-400 rounded-xl shadow-md px-6 py-4">
-            <span className="text-4xl">👋</span>
-            <div className="ml-5">
-              <p className="text-gray-800 text-base">Hello, we are</p>
-              <h1 className="text-black font-bold text-2xl">Jalan Pintas Art</h1>
+          <div className="flex lg:w-[300px] items-center bg-yellow-400 rounded-xl shadow-md px-4 
+          sm:px-6 py-3 sm:py-4">
+            <span className="lg:text-3xl sm:text-4xl">👋</span>
+            <div className="ml-4 sm:ml-5">
+              <p className="text-gray-800 lg:text-2xl">Hello, we are</p>
+              <h1 className="text-black font-bold lg:text-3xl">
+                Jalan Pintas Art
+              </h1>
             </div>
           </div>
 
           {/* Tag */}
-          <div className="flex flex-col bg-yellow-400 rounded-xl shadow-md px-6 py-4 uppercase text-right">
-            <p className="text-black">Sablon</p>
-            <p className="text-black">Berkualitas</p>
+          <div className="flex flex-col bg-yellow-400 rounded-xl shadow-md px-4 sm:px-6 py-3 sm:py-4 uppercase text-left sm:text-right">
+            <p className="text-black text-base">Sablon</p>
+            <p className="text-black text-base">Berkualitas</p>
           </div>
 
           {/* Harga */}
-          <div className="flex items-center gap-1 bg-yellow-400 rounded-xl shadow-md px-6 py-4">
-            <p className="text-black font-semibold">Harga</p>
-            <p className="text-black font-semibold">Merakyat 👍</p>
+          <div className="flex items-center gap-2 bg-yellow-400 rounded-xl shadow-md px-4 
+          sm:px-6 py-3 sm:py-4">
+            <p className="text-black font-semibold text-base">
+              Harga
+            </p>
+            <p className="text-black font-semibold text-base">
+              Merakyat 👍
+            </p>
           </div>
         </div>
       </motion.div>
@@ -86,12 +87,12 @@ export default function Hero() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="flex-1 flex justify-center items-center relative z-10"
+        className="flex justify-center items-center relative z-10 my-20 lg:my-0"
       >
         <img
           src={images.bajuPutih}
           alt="baju"
-          className="w-[80%] object-contain z-10"
+          className="w-[300px] md:w-[450px] lg:w-[60%] object-contain z-10"
         />
         <motion.img
           variants={circleBgVariants}
@@ -100,7 +101,7 @@ export default function Hero() {
           viewport={{ once: true }}
           src={images.yellowCircle}
           alt="circle"
-          className="absolute w-full h-full left-0 right-0 bottom-0 z-0"
+          className="absolute w-[80%] h-[400px] lg:w-[500px] lg:h-full lg:left-27 lg:right-0 lg:bottom-0 z-0"
         />
       </motion.div>
 
@@ -110,24 +111,24 @@ export default function Hero() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="flex flex-col justify-evenly items-start flex-1 ml-4 lg:ml-6 space-y-6 lg:space-y-8 z-10"
+        className="flex flex-row lg:flex-col justify-center lg:justify-evenly items-center 
+        lg:items-start flex-1 gap-4 sm:gap-6 lg:gap-8 z-10 lg:ml-15 ml-0 lg:mt-0 mt-5"
       >
         {/* Circle 1 */}
-        <div className="w-[100px] h-[100px] rounded-full bg-white shadow-md flex justify-center items-center">
+        <div className="w-[70px] sm:w-[90px] lg:w-[100px] h-[70px] sm:h-[90px] lg:h-[100px] rounded-full bg-white shadow-md flex justify-center items-center">
           <img src={images.bag} alt="circle" className="w-[60%] h-[60%]" />
         </div>
 
         {/* Circle 2 */}
-        <div className="w-[150px] h-[150px] rounded-full bg-white shadow-md flex justify-center items-center">
+        <div className="w-[110px] sm:w-[130px] lg:w-[150px] h-[110px] sm:h-[130px] lg:h-[150px] rounded-full bg-white shadow-md flex justify-center items-center">
           <img src={images.hoodie} alt="circle" className="w-[60%] h-[60%]" />
         </div>
 
         {/* Circle 3 */}
-        <div className="w-[70px] h-[70px] rounded-full bg-white shadow-md flex justify-center items-center">
+        <div className="w-[60px] sm:w-[70px] lg:w-[80px] h-[60px] sm:h-[70px] lg:h-[80px] rounded-full bg-white shadow-md flex justify-center items-center">
           <img src={images.kaos} alt="circle" className="w-[60%] h-[60%]" />
         </div>
       </motion.div>
     </div>
   );
-};
-
+}
