@@ -4,8 +4,10 @@ import { type Item } from "../types";
 
 import Hero from "../components/layout/Home/Hero";
 import Card from "../components/layout/Home/Card";
-import About from "../components/layout/Home/About";
+// import About from "../components/layout/Home/About";
 import Navbar from "../components/Navbar";
+import Tabs from "../components/TabComponent";
+import HelpIcon from "../components/HelpIcon";
 
 function PublicHome() {
   const [items, setItems] = useState<Item[]>([]);
@@ -21,7 +23,7 @@ function PublicHome() {
 
   return (
     <>
-      <Navbar />
+      <Navbar mode="home" />
       <Hero />
 
       <section className="flex justify-center items-center flex-wrap gap-3 py-5">
@@ -37,7 +39,33 @@ function PublicHome() {
           : items.map((item) => <Card key={item.id} id={item.id} title={item.title} created_at={new Date(item.created_at)} description={item.description} />)}
       </section>
 
-      <About />
+      {/* <About /> */}
+
+      <div className="max-w-2xl mx-auto mt-10">
+        <h1 className="text-2xl font-bold mb-4">Reusable Tabs with Animation</h1>
+        <Tabs
+          tabs={[
+            {
+              label: "Kaos",
+              content: <p>✨ Selamat datang di halaman Home!</p>,
+            },
+            {
+              label: "Tas",
+              content: <p>👤 Ini adalah halaman Profile kamu.</p>,
+            },
+            {
+              label: "Polo",
+              content: <p>⚙️ Atur preferensi kamu di halaman Settings.</p>,
+            },
+            {
+              label: "Semua",
+              content: <p>Semua</p>,
+            },
+          ]}
+        />
+      </div>
+
+      <HelpIcon />
     </>
   );
 }

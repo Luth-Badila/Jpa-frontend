@@ -1,10 +1,31 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { images } from "../constants";
 import { Link } from "react-router-dom";
+import { images } from "../constants";
+import { type NavbarProps } from "../types";
 
-export default function Navbar() {
+export default function Navbar({ mode = "home" }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Menu untuk homepage
+  const homeMenus = [
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Contact", href: "#contact" },
+     { label: "Product", href: "/product", isRoute: true },
+    { label: "How to order", href: "/how-to-order", isRoute: true },
+  ];
+
+  // Menu untuk halaman order (full route)
+  const orderMenus = [
+    { label: "Home", href: "/", isRoute: true },
+    { label: "About", href: "/about", isRoute: true },
+    { label: "Contact", href: "/contact", isRoute: true },
+    { label: "Product", href: "/product", isRoute: true },
+    { label: "How to order", href: "/how-to-order", isRoute: true },
+  ];
+
+  const menus = mode === "home" ? homeMenus : orderMenus;
 
   return (
     <motion.nav initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="fixed top-0 left-0 w-full bg-[#FFD700] p-4 flex justify-between items-center shadow-md z-50">
@@ -16,21 +37,20 @@ export default function Navbar() {
 
       {/* Desktop Menu */}
       <ul className="hidden md:flex gap-6 font-medium cursor-pointer lg:text-xl text-sm">
-        <li className="hover:text-white transition">
-          <a href="#home">Home</a>
-        </li>
-        <li className="hover:text-white transition">
-          <a href="#about">About</a>
-        </li>
-        <li className="hover:text-white transition">
-          <a href="#contact">Contact</a>
-        </li>
-        <Link to="/how-to-order" className="hover:text-white transition">
-          <a href="#contact">How to order</a>
-        </Link>
+        {menus.map((menu) =>
+          menu.isRoute ? (
+            <Link key={menu.label} to={menu.href} className="hover:text-white transition">
+              {menu.label}
+            </Link>
+          ) : (
+            <a key={menu.label} href={menu.href} className="hover:text-white transition">
+              {menu.label}
+            </a>
+          )
+        )}
       </ul>
 
-      {/* Desktop Order */}
+      {/* Desktop Order Icon */}
       <Link to="/order" className="hidden md:block">
         <img src={images.arrowLogo} alt="arrow-logo" className="lg:w-20 w-10" />
       </Link>
@@ -66,13 +86,33 @@ export default function Navbar() {
               }}
               className="flex flex-col gap-6 font-medium text-lg"
             >
-              {["Home", "About", "Contact"].map((menu) => (
-                <motion.li key={menu} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-                  <a href={`#${menu.toLowerCase()}`} onClick={() => setIsOpen(false)}>
-                    {menu}
-                  </a>
-                </motion.li>
-              ))}
+              {menus.map((menu) =>
+                menu.isRoute ? (
+                  <motion.li
+                    key={menu.label}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                  >
+                    <Link to={menu.href} onClick={() => setIsOpen(false)}>
+                      {menu.label}
+                    </Link>
+                  </motion.li>
+                ) : (
+                  <motion.li
+                    key={menu.label}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                  >
+                    <a href={menu.href} onClick={() => setIsOpen(false)}>
+                      {menu.label}
+                    </a>
+                  </motion.li>
+                )
+              )}
             </motion.ul>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>

@@ -10,6 +10,7 @@ import OrderPage from "./pages/OrderPage";
 import Sandbox from "./pages/Sandbox";
 import SandboxInput from "./pages/SandboxInput";
 import Sandbox2 from "./pages/Sandbox2";
+import HowToOrder from "./pages/HowToOrder";
 
 const App: React.FC = () => {
   return (
@@ -17,14 +18,19 @@ const App: React.FC = () => {
       {/* Public */}
       <Route path="/" element={<PublicHome />} />
 
-      {/* Dashboard */}
+      {/* Main Website */}
       <Route path="/dashboard" element={<DashboardHome />} />
+      <Route path="/about" element={<DashboardHome />} />
+      <Route path="/contact" element={<DashboardHome />} />
+      <Route path="/product" element={<DashboardHome />} />
+      <Route path="/how-to-order" element={<HowToOrder />} />
+      
+      {/* Fpr Dashboard */}
       <Route path="/items" element={<ItemsListPage />} />
       <Route path="/items/new" element={<ItemFormPage />} />
       <Route path="/items/:id" element={<ItemDetailPage />} />
       <Route path="/items/:id/edit" element={<ItemFormPage />} />
       <Route path="/edit" element={<EditPage />} />
-      <Route path="/how-to-order" element={<OrderPage />} />
       <Route path="/order" element={<OrderPage />} />
 
       <Route path="/sandbox" element={<Sandbox />} />

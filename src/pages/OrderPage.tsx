@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "../api/supabaseClient";
+import Navbar from "../components/Navbar";
 
 export default function OrderPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -82,9 +83,7 @@ export default function OrderPage() {
       const fileName = `edited-${Date.now()}.png`;
 
       // Upload ke storage
-      const { error } = await supabase.storage
-        .from("images")
-        .upload(fileName, blob, { contentType: "image/png" });
+      const { error } = await supabase.storage.from("images").upload(fileName, blob, { contentType: "image/png" });
 
       if (error) {
         console.error("Upload error:", error.message);
@@ -129,34 +128,37 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="p-6 flex flex-col justify-center items-center gap-4 py-18 lg:py-40">
-      <div className="flex gap-4">
-        {/* uploaders */}
-        <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-          Upload Background
-          <input type="file" accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
-        </label>
+    <>
+      <Navbar mode="order" />
+      <div className="p-6 flex flex-col justify-center items-center gap-4 py-18 lg:py-40">
+        <div className="flex gap-4">
+          {/* uploaders */}
+          <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
+            Upload Background
+            <input type="file" accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
+          </label>
 
-        <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-          Upload Overlay
-          <input type="file" accept="image/*" className="hidden" onChange={handleOverlayUpload} />
-        </label>
+          <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
+            Upload Overlay
+            <input type="file" accept="image/*" className="hidden" onChange={handleOverlayUpload} />
+          </label>
+        </div>
+
+        <canvas ref={canvasRef} onClick={handleMouseDrag} className="border lg:w-[600px] lg:h-[400px] w-[100%] bg-gray-200" />
+
+        {/* Form */}
+        <div className="flex flex-col gap-2 justify-center items-center">
+          <input className="border p-2 lg:w-[600px] w-[330px]" placeholder="Judul" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input className="border p-2 lg:w-[600px] w-[330px]" type="number" placeholder="Harga" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+          <input className="border p-2 lg:w-[600px] w-[330px]" type="number" placeholder="Total Pesanan" value={total_orders} onChange={(e) => setTotal_orders(Number(e.target.value))} />
+          <input className="border p-2 lg:w-[600px] w-[330px]" placeholder="No WhatsApp" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
+          <input className="border p-2 lg:w-[600px] w-[330px]" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+
+        <button onClick={handleUpload} className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer">
+          Upload ke Supabase
+        </button>
       </div>
-
-      <canvas ref={canvasRef} onClick={handleMouseDrag} className="border lg:w-[600px] lg:h-[400px] w-[100%] bg-gray-200" />
-
-      {/* Form */}
-      <div className="flex flex-col gap-2 justify-center items-center">
-        <input className="border p-2 lg:w-[600px] w-[330px]" placeholder="Judul" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <input className="border p-2 lg:w-[600px] w-[330px]" type="number" placeholder="Harga" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
-        <input className="border p-2 lg:w-[600px] w-[330px]" type="number" placeholder="Total Pesanan" value={total_orders} onChange={(e) => setTotal_orders(Number(e.target.value))} />
-        <input className="border p-2 lg:w-[600px] w-[330px]" placeholder="No WhatsApp" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
-        <input className="border p-2 lg:w-[600px] w-[330px]" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </div>
-
-      <button onClick={handleUpload} className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer">
-        Upload ke Supabase
-      </button>
-    </div>
+    </>
   );
 }

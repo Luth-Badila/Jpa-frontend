@@ -48,6 +48,8 @@ import spotify from '../assets/spotify.png';
 import bgImgGreen from "../assets/bgIMGGreen.png"
 import bgImgYellow from "../assets/bgIMGYellow.png"
 
+import whatsappLogo from "../assets/wa.png"
+
 export const images = {
   arrowLogo,
   arrowLogo2,
@@ -93,5 +95,6 @@ export const images = {
   skype,
   spotify,
   bgImgGreen,
-  bgImgYellow
+  bgImgYellow,
+  whatsappLogo
 };

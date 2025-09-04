@@ -1,3 +1,5 @@
+import { type ReactNode } from "react";
+
 export type Item = {
   id: number;
   title: string;
@@ -16,4 +18,21 @@ export interface Database {
     };
   };
 }
+
+// Navbar
+type NavbarMode = "home" | "order";
+export interface NavbarProps {
+  mode?: NavbarMode; // default: "home"
+}
+
+// Tab Component
+
+type Tab = {
+  label: string;
+  content: ReactNode;
+};
+export interface TabsProps {
+  tabs: Tab[];
+  defaultIndex?: number;
+};
 
