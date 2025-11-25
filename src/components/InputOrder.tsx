@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "../api/supabaseClient";
 
-export default function Sandbox2() {
+export default function InputOrder() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [background, setBackground] = useState<string | null>(null);
   const [overlay, setOverlay] = useState<string | null>(null);
@@ -14,17 +14,16 @@ export default function Sandbox2() {
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
 
-  // render canvas (dibungkus useCallback supaya bisa jadi dependency aman)
+  // render canvas
   const renderCanvas = useCallback(() => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = 1280;
+    canvas.width = 1280; // resolusi tetap
     canvas.height = 720;
 
-    // clear dulu
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (background) {
@@ -44,31 +43,35 @@ export default function Sandbox2() {
     }
   }, [background, overlay, overlayPos]);
 
-  // rerender kalau background/overlay berubah
   useEffect(() => {
     renderCanvas();
   }, [renderCanvas]);
 
-  // upload background
   const handleBackgroundUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       setBackground(URL.createObjectURL(e.target.files[0]));
     }
   };
 
-  // upload overlay
   const handleOverlayUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       setOverlay(URL.createObjectURL(e.target.files[0]));
     }
   };
 
+  // drag overlay mengikuti scaling canvas (responsif)
   const handleMouseDrag = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!overlay) return;
-    const rect = e.currentTarget.getBoundingClientRect();
+    if (!overlay || !canvasRef.current) return;
+
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
     setOverlayPos({
-      x: e.clientX - rect.left - 64,
-      y: e.clientY - rect.top - 64,
+      x: (e.clientX - rect.left) * scaleX - 64,
+      y: (e.clientY - rect.top) * scaleY - 64,
     });
   };
 
@@ -81,20 +84,15 @@ export default function Sandbox2() {
       if (!blob) return;
       const fileName = `edited-${Date.now()}.png`;
 
-      // Upload ke storage
-      const { error } = await supabase.storage
-        .from("images")
-        .upload(fileName, blob, { contentType: "image/png" });
+      const { error } = await supabase.storage.from("images").upload(fileName, blob, { contentType: "image/png" });
 
       if (error) {
         console.error("Upload error:", error.message);
         return;
       }
 
-      // Ambil URL publik
       const { data: publicUrl } = supabase.storage.from("images").getPublicUrl(fileName);
 
-      // Simpan metadata ke table orders
       const { error: insertError } = await supabase.from("orders").insert([
         {
           title,
@@ -111,7 +109,6 @@ export default function Sandbox2() {
       } else {
         alert("✅ Gambar & data berhasil diupload ke Supabase!");
 
-        // reset semua state
         setBackground(null);
         setOverlay(null);
         setOverlayPos({ x: 50, y: 50 });
@@ -121,7 +118,6 @@ export default function Sandbox2() {
         setWhatsapp("");
         setEmail("");
 
-        // clear canvas juga
         const ctx = canvas.getContext("2d");
         if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
@@ -129,9 +125,9 @@ export default function Sandbox2() {
   };
 
   return (
-    <div className="p-6 flex flex-col gap-4">
-      <div className="flex gap-4">
-        {/* uploaders */}
+    <div className="p-4 flex flex-col gap-4 max-w-full py-18 lg:py-30">
+      {/* Upload Buttons */}
+      <div className="flex flex-wrap gap-4 lg:ml-5">
         <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
           Upload Background
           <input type="file" accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
@@ -143,19 +139,27 @@ export default function Sandbox2() {
         </label>
       </div>
 
-      <canvas ref={canvasRef} onClick={handleMouseDrag} className="border w-[1280px] h-[720px] bg-gray-200" />
+      {/* Canvas Wrapper (RESPONSIVE) */}
+      <div className="w-full max-w-[1280px] mx-auto">
+        <canvas ref={canvasRef} onClick={handleMouseDrag} className="border bg-gray-200 w-full lg:h-[800px] h-[400px]" />
+      </div>
 
       {/* Form */}
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-1 gap-2 lg:w-[1280px] w-full mx-auto">
+        <label htmlFor="title">Nama Pembeli</label>
         <input className="border p-2" placeholder="Judul" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <label htmlFor="price">Harga yang diinginkan</label>
         <input className="border p-2" type="number" placeholder="Harga" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
-        <input className="border p-2" type="number" placeholder="Total Pesanan" value={total_orders} onChange={(e) => setTotal_orders(Number(e.target.value))} />
+        <label htmlFor="JumlahPesanan">Jumlah Pesanan</label>
+        <input className="border p-2" type="number" placeholder="Jumlah Pesanan" value={total_orders} onChange={(e) => setTotal_orders(Number(e.target.value))} />
+        <label htmlFor={title}>No Whatsapp yang aktif</label>
         <input className="border p-2" placeholder="No WhatsApp" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
+        <label htmlFor={title}>Email</label>
         <input className="border p-2" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
 
-      <button onClick={handleUpload} className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer">
-        Upload ke Supabase
+      <button onClick={handleUpload} className="bg-green-600 text-white lg:ml-5 px-4 py-2 rounded w-fit">
+        Kirim
       </button>
     </div>
   );

@@ -6,11 +6,10 @@ import ItemFormPage from "./pages/ItemFormPage";
 import ItemDetailPage from "./pages/ItemDetailPage";
 import EditPage from "./pages/EditPage";
 import PublicHome from "./pages/PublicHome";
-import OrderPage from "./pages/OrderPage";
 import Sandbox from "./pages/Sandbox";
 import SandboxInput from "./pages/SandboxInput";
-import Sandbox2 from "./pages/Sandbox2";
 import HowToOrder from "./pages/HowToOrder";
+import MainInputOrder from "./pages/MainInputOrder";
 
 const App: React.FC = () => {
   return (
@@ -31,11 +30,11 @@ const App: React.FC = () => {
       <Route path="/items/:id" element={<ItemDetailPage />} />
       <Route path="/items/:id/edit" element={<ItemFormPage />} />
       <Route path="/edit" element={<EditPage />} />
-      <Route path="/order" element={<OrderPage />} />
+      {/* <Route path="/order" element={<OrderPage />} /> */}
+      <Route path="/order" element={<MainInputOrder />} />
 
       <Route path="/sandbox" element={<Sandbox />} />
       <Route path="/sandbox-input" element={<SandboxInput />} />
-      <Route path="/sandbox2" element={<Sandbox2 />} />
     </Routes>
   );
 };
