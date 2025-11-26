@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { type TabsProps } from "../types";
 
-export default function Tabs({ tabs, defaultIndex = 0 }: TabsProps) {
+export default function TabComponent({ tabs, defaultIndex = 0 }: TabsProps) {
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
   return (

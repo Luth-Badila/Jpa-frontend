@@ -10,6 +10,7 @@ import Sandbox from "./pages/Sandbox";
 import SandboxInput from "./pages/SandboxInput";
 import HowToOrder from "./pages/HowToOrder";
 import MainInputOrder from "./pages/MainInputOrder";
+import Product from "./components/layout/Product/Product";
 
 const App: React.FC = () => {
   return (
@@ -21,9 +22,9 @@ const App: React.FC = () => {
       <Route path="/dashboard" element={<DashboardHome />} />
       <Route path="/about" element={<DashboardHome />} />
       <Route path="/contact" element={<DashboardHome />} />
-      <Route path="/product" element={<DashboardHome />} />
+      <Route path="/product" element={<Product />} />
       <Route path="/how-to-order" element={<HowToOrder />} />
-      
+
       {/* Fpr Dashboard */}
       <Route path="/items" element={<ItemsListPage />} />
       <Route path="/items/new" element={<ItemFormPage />} />

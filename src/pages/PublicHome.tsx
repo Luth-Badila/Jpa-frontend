@@ -6,7 +6,6 @@ import Hero from "../components/layout/Home/Hero";
 import Card from "../components/layout/Home/Card";
 // import About from "../components/layout/Home/About";
 import Navbar from "../components/Navbar";
-import Tabs from "../components/TabComponent";
 import HelpIcon from "../components/HelpIcon";
 
 function PublicHome() {
@@ -20,8 +19,6 @@ function PublicHome() {
       setLoading(false);
     })();
   }, []);
-
-  console.log(items);
 
   return (
     <>
@@ -42,31 +39,6 @@ function PublicHome() {
             : items.map((item) => <Card key={item.id} id={item.id} title={item.title} created_at={new Date(item.created_at)} description={item.description} image={item.image} />)}
         </section>
 
-        {/* <About /> */}
-
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-2xl font-bold mb-4">Reusable Tabs with Animation</h1>
-          <Tabs
-            tabs={[
-              {
-                label: "Kaos",
-                content: <p>✨ Selamat datang di halaman Home!</p>,
-              },
-              {
-                label: "Tas",
-                content: <p>👤 Ini adalah halaman Profile kamu.</p>,
-              },
-              {
-                label: "Polo",
-                content: <p>⚙️ Atur preferensi kamu di halaman Settings.</p>,
-              },
-              {
-                label: "Semua",
-                content: <p>Semua</p>,
-              },
-            ]}
-          />
-        </div>
       </main>
 
       <HelpIcon />
