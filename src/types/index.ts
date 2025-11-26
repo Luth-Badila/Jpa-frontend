@@ -5,6 +5,7 @@ export type Item = {
   title: string;
   description?: string;
   created_at: string;
+  image: string;
 };
 
 export interface Database {
@@ -34,5 +35,4 @@ type Tab = {
 export interface TabsProps {
   tabs: Tab[];
   defaultIndex?: number;
-};
-
+}
