@@ -11,6 +11,8 @@ import SandboxInput from "./pages/SandboxInput";
 import HowToOrder from "./pages/HowToOrder";
 import MainInputOrder from "./pages/MainInputOrder";
 import Product from "./components/layout/Product/Product";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const App: React.FC = () => {
   return (
@@ -20,8 +22,8 @@ const App: React.FC = () => {
 
       {/* Main Website */}
       <Route path="/dashboard" element={<DashboardHome />} />
-      <Route path="/about" element={<DashboardHome />} />
-      <Route path="/contact" element={<DashboardHome />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/product" element={<Product />} />
       <Route path="/how-to-order" element={<HowToOrder />} />
 
