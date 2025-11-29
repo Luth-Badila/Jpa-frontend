@@ -129,12 +129,12 @@ export default function InputOrder() {
       {/* Upload Buttons */}
       <div className="flex flex-wrap gap-4 lg:ml-5">
         <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-          Upload Background
+          Upload Baju
           <input type="file" accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
         </label>
 
         <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-          Upload Overlay
+          Upload desain
           <input type="file" accept="image/*" className="hidden" onChange={handleOverlayUpload} />
         </label>
       </div>

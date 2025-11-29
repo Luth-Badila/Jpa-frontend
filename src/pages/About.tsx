@@ -31,34 +31,36 @@ export default function About() {
     <>
       <Navbar />
 
-      <motion.section 
-      initial={{ y: -50, opacity: 0 }} 
-      animate={{ y: 0, opacity: 1 }} 
-      transition={{ duration: 0.5 }} 
-      className="flex flex-col justify-center items-center gap-12 py-24">
+      <motion.section initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} 
+      className="flex flex-col justify-center items-center gap-12 py-16  lg:py-24">
         {loading ? (
-          <p className="text-gray-600 mx-auto [h-100vh]">Loading...</p>
+          <p className="text-gray-600 text-center">Loading...</p>
         ) : (
-          sections.map((item, idx) => (
-            <div
-              key={item.id}
-              className={`
-                grid grid-cols-1 md:grid-cols-2 items-center gap-6 
-                p-10 rounded-xl shadow-sm
-                transition hover:shadow-lg
-                ${idx === 0 || idx === 2 ? "bg-gray-300" : "bg-white"}
-              `}
-            >
-              {/* TEKS */}
-              <div className="flex flex-col">
-              <h1 className="text-xl md:text-2xl uppercase font-semibold leading-relaxed">{item.title}</h1>
-              <p>{item.description}</p>
-              </div>
+          sections.map((item, idx) => {
+            const isEvenRow = idx % 2 === 0;
 
-              {/* GAMBAR */}
-              <img src={item.image} alt={item.title} className="w-full rounded-lg shadow-md object-cover" />
-            </div>
-          ))
+            return (
+              <div
+                key={item.id}
+                className={`
+                  grid grid-cols-1 md:grid-cols-2 items-center gap-10 
+                  p-10 shadow-sm w-full
+                  ${isEvenRow ? "bg-gray-300" : "bg-white"} 
+                `}
+              >
+                {/* GAMBAR KIRI (untuk idx 0,2) */}
+                <div className={`${isEvenRow ? "md:order-1" : "md:order-2"}`}>
+                  <img src={item.image} alt={item.title} className="w-full rounded-lg shadow-md object-cover" />
+                </div>
+
+                {/* TEKS */}
+                <div className={`${isEvenRow ? "md:order-2" : "md:order-1"} flex flex-col`}>
+                  <h1 className="text-xl md:text-2xl uppercase font-semibold leading-relaxed">{item.title}</h1>
+                  <p className="mt-3 text-gray-700">{item.description}</p>
+                </div>
+              </div>
+            );
+          })
         )}
       </motion.section>
     </>

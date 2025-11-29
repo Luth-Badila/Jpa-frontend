@@ -26,15 +26,15 @@ const App: React.FC = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="/product" element={<Product />} />
       <Route path="/how-to-order" element={<HowToOrder />} />
+      <Route path="/order" element={<MainInputOrder />} />
 
-      {/* Fpr Dashboard */}
+      {/* For Dashboard */}
       <Route path="/items" element={<ItemsListPage />} />
       <Route path="/items/new" element={<ItemFormPage />} />
       <Route path="/items/:id" element={<ItemDetailPage />} />
       <Route path="/items/:id/edit" element={<ItemFormPage />} />
       <Route path="/edit" element={<EditPage />} />
       {/* <Route path="/order" element={<OrderPage />} /> */}
-      <Route path="/order" element={<MainInputOrder />} />
 
       <Route path="/sandbox" element={<Sandbox />} />
       <Route path="/sandbox-input" element={<SandboxInput />} />

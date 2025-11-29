@@ -22,7 +22,7 @@ function PublicHome() {
 
   return (
     <>
-      <Navbar mode="home" />
+      <Navbar />
       <Hero />
 
       <main className="flex flex-col gap-[70px]">

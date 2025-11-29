@@ -33,11 +33,10 @@ export default function Contact() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-20">
           {/* HQ */}
           <div>
-            <h2 className="text-2xl font-semibold mb-4">Cititex HQ</h2>
+            <h2 className="text-2xl font-semibold mb-4">Jalan Pintas</h2>
             <p className="font-semibold mb-2">Contact Info</p>
             <div className="border-t border-gray-300 my-3 w-1/2"></div>
-            <p className="text-gray-700">0812 80000 581</p>
-            <p className="text-gray-700">kedoya@cititex.com</p>
+            <p className="text-gray-700">0859 6416 8620</p>
           </div>
 
           {/* Address */}
@@ -45,13 +44,13 @@ export default function Contact() {
             <h2 className="font-semibold mb-2">Address</h2>
             <div className="border-t border-gray-300 my-3 w-1/2"></div>
             <p className="text-gray-700 leading-relaxed">
-              Jl. Kedoya Raya No. 2A1 – 2AIII & 2B
+              Gresikan RT 08/ RW 02, Krian, Kemasan
               <br />
-              Kedoya Selatan
+              Kecamatan Krian
               <br />
-              Kebon Jeruk
+              Kabupaten Sidoarjo
               <br />
-              Jakarta Barat
+              Provinsi Jawa Timur
             </p>
           </div>
 
@@ -63,10 +62,6 @@ export default function Contact() {
             <div className="flex items-center gap-6 text-gray-800 text-lg">
               <a href="#" className="flex items-center gap-2 hover:text-black transition">
                 Tiktok
-              </a>
-
-              <a href="#" className="flex items-center gap-2 hover:text-black transition">
-                Youtube
               </a>
 
               <a href="#" className="flex items-center gap-2 hover:text-black transition">

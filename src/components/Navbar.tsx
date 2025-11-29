@@ -9,20 +9,20 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
 
   // Menu untuk homepage
   const homeMenus = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
-    { label: "Product", href: "/", isRoute: true },
-    { label: "How to order", href: "/", isRoute: true },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+    { label: "Product", href: "/product", isRoute: true },
+    { label: "How to order", href: "/how-to-order", isRoute: true },
   ];
 
   // Menu untuk halaman order (full route)
   const orderMenus = [
     { label: "Home", href: "/", isRoute: true },
-    { label: "About", href: "/", isRoute: true },
-    { label: "Contact", href: "/", isRoute: true },
-    { label: "Product", href: "/", isRoute: true },
-    { label: "How to order", href: "/", isRoute: true },
+    { label: "About", href: "/about", isRoute: true },
+    { label: "Contact", href: "/contact", isRoute: true },
+    { label: "Product", href: "/product", isRoute: true },
+    { label: "How to order", href: "/how-to-order", isRoute: true },
   ];
 
   const menus = mode === "home" ? homeMenus : orderMenus;
@@ -30,9 +30,11 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
   return (
     <motion.nav initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="fixed top-0 left-0 w-full bg-[#FFD700] p-4 flex justify-between items-center shadow-md z-50">
       {/* Logo */}
-      <div className="flex items-center gap-2">
-        <img src={images.logo} alt="logo" className="lg:w-10 w-5" />
-        <h1 className="lg:text-xl text-xs font-bold">Jalan Pintas Art</h1>
+      <div>
+        <Link to="/" className="flex items-center gap-2">
+          <img src={images.logo} alt="logo" className="lg:w-10 w-5" />
+          <h1 className="lg:text-xl text-xs font-bold">Jalan Pintas</h1>
+        </Link>
       </div>
 
       {/* Desktop Menu */}
