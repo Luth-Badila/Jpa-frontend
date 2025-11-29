@@ -1,11 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "redirects": [
-    {
-      "source": "/:path*",
-      "destination": "https://jalan-pintas-sablon.vercel.app/:path*",
-      "permanent": true
-    }
-  ]
+  "outputDirectory": "dist"
 }
