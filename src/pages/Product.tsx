@@ -1,5 +1,5 @@
-import SearchProduct from "./SearchProduct";
-import Navbar from "../../Navbar";
+import SearchProduct from "../components/layout/Product/SearchProduct";
+import Navbar from "../components/Navbar";
 
 function Product() {
   return (
@@ -8,6 +8,7 @@ function Product() {
       <div className="py-18 lg:py-25">
         <SearchProduct />
       </div>
+ 
     </>
   );
 }

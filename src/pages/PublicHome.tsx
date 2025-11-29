@@ -4,9 +4,9 @@ import { type Item } from "../types";
 
 import Hero from "../components/layout/Home/Hero";
 import Card from "../components/layout/Home/Card";
-// import About from "../components/layout/Home/About";
 import Navbar from "../components/Navbar";
-import HelpIcon from "../components/HelpIcon";
+// import HelpIcon from "../components/HelpIcon";
+import FloatingSidebar from "../components/FloatingSidebar";
 
 function PublicHome() {
   const [items, setItems] = useState<Item[]>([]);
@@ -41,7 +41,7 @@ function PublicHome() {
 
       </main>
 
-      <HelpIcon />
+      <FloatingSidebar />
     </>
   );
 }

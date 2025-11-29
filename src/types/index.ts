@@ -1,13 +1,5 @@
 import { type ReactNode } from "react";
 
-export type Item = {
-  id: number;
-  title: string;
-  description?: string;
-  created_at: string;
-  image: string;
-};
-
 export interface Database {
   public: {
     Tables: {
@@ -20,6 +12,14 @@ export interface Database {
   };
 }
 
+export type Item = {
+  id: number;
+  title: string;
+  description?: string;
+  created_at: string;
+  image: string;
+};
+
 // Navbar
 type NavbarMode = "home" | "order";
 export interface NavbarProps {
@@ -27,7 +27,6 @@ export interface NavbarProps {
 }
 
 // Tab Component
-
 type Tab = {
   label: string;
   content: ReactNode;
@@ -35,4 +34,26 @@ type Tab = {
 export interface TabsProps {
   tabs: Tab[];
   defaultIndex?: number;
+}
+
+// About Section
+export interface AboutSection {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+}
+
+// Product Section
+export interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+}
+
+// Mini Sidebar 
+export interface SidebarItemProps {
+  icon: string;
+  label: string;
 }

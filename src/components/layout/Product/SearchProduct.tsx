@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../../api/supabaseClient";
+import { Product } from "../../../types";
 
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-}
 
 export default function SearchProduct() {
   const [products, setProducts] = useState<Product[]>([]);

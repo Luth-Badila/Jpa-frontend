@@ -11,7 +11,6 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
   const homeMenus = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
     { label: "Product", href: "/product", isRoute: true },
     { label: "How to order", href: "/how-to-order", isRoute: true },
   ];
@@ -20,7 +19,6 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
   const orderMenus = [
     { label: "Home", href: "/", isRoute: true },
     { label: "About", href: "/about", isRoute: true },
-    { label: "Contact", href: "/contact", isRoute: true },
     { label: "Product", href: "/product", isRoute: true },
     { label: "How to order", href: "/how-to-order", isRoute: true },
   ];

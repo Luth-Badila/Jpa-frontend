@@ -49,6 +49,10 @@ import bgImgGreen from "../assets/bgIMGGreen.png"
 import bgImgYellow from "../assets/bgIMGYellow.png"
 
 import whatsappLogo from "../assets/wa.png"
+import igLogo from "../assets/instagram.png"
+
+import leftArrow from "../assets/leftArrow.png"
+import rightArrow from "../assets/rightArrow.png"
 
 export const images = {
   arrowLogo,
@@ -96,5 +100,8 @@ export const images = {
   spotify,
   bgImgGreen,
   bgImgYellow,
-  whatsappLogo
+  whatsappLogo,
+  igLogo,
+  leftArrow,
+  rightArrow
 };
