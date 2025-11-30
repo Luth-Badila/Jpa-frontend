@@ -3,12 +3,18 @@ import { motion } from "motion/react";
 export default function ContactSection() {
   return (
     <>
-      <motion.section initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-7xl mx-auto px-6 py-24">
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="px-6 bg-gradient-to-r from-green-400 via-lime-300 to-yellow-300
+ py-24"
+      >
         {/* Header */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center p-10">
           <div>
             <h1 className="text-4xl font-bold mb-4">Get in touch with us</h1>
-            <p className="text-gray-600 text-lg">Biggest Blank Apparel And Custom T–shirt in Indonesia.</p>
+            <p className="text-gray-800 text-lg">Affordable Blank Apparel And Custom T–shirt</p>
           </div>
 
           {/* Image */}
