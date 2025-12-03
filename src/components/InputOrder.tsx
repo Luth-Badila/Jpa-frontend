@@ -1,165 +1,229 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { supabase } from "../api/supabaseClient";
+import { ImagesOrder, type ImageKeys } from "../constants/images";
+
+interface OverlayItem {
+  id: number;
+  src: string;
+  x: number;
+  y: number;
+}
 
 export default function InputOrder() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [background, setBackground] = useState<string | null>(null);
-  const [overlay, setOverlay] = useState<string | null>(null);
-  const [overlayPos, setOverlayPos] = useState({ x: 50, y: 50 });
 
-  // form
+  const [productType, setProductType] = useState<ImageKeys>("tshirt");
+  const [background, setBackground] = useState(ImagesOrder.tshirt);
+
+  const [overlays, setOverlays] = useState<OverlayItem[]>([]);
+  const [activeId, setActiveId] = useState<number | null>(null);
+
+  // FORM STATE
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState<number>(0);
-  const [total_orders, setTotal_orders] = useState<number>(1);
+  const [total_orders, setTotalOrders] = useState<number>(1);
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
 
-  // render canvas
+  // CHANGE BACKGROUND WHEN PRODUCT CHANGES
+  useEffect(() => {
+    setBackground(ImagesOrder[productType]);
+  }, [productType]);
+
+  // RENDER CANVAS
   const renderCanvas = useCallback(() => {
     if (!canvasRef.current) return;
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width = 1280; // resolusi tetap
+    canvas.width = 1280;
     canvas.height = 720;
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (background) {
-      const bg = new Image();
-      bg.src = background;
-      bg.onload = () => {
-        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+    const bg = new Image();
+    bg.src = background;
 
-        if (overlay) {
-          const ov = new Image();
-          ov.src = overlay;
-          ov.onload = () => {
-            ctx.drawImage(ov, overlayPos.x, overlayPos.y, 128, 128);
-          };
-        }
-      };
-    }
-  }, [background, overlay, overlayPos]);
+    bg.onload = () => {
+      ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+      overlays.forEach((ov) => {
+        const img = new Image();
+        img.src = ov.src;
+        img.onload = () => {
+          ctx.drawImage(img, ov.x, ov.y, 160, 160);
+        };
+      });
+    };
+  }, [background, overlays]);
 
   useEffect(() => {
     renderCanvas();
   }, [renderCanvas]);
 
-  const handleBackgroundUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setBackground(URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
+  // UPLOAD OVERLAY IMAGE
   const handleOverlayUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setOverlay(URL.createObjectURL(e.target.files[0]));
-    }
+    if (!e.target.files) return;
+    const files = Array.from(e.target.files);
+
+    const newItems = files.map((file, idx) => ({
+      id: Date.now() + idx,
+      src: URL.createObjectURL(file),
+      x: 100,
+      y: 100,
+    }));
+
+    setOverlays((prev) => [...prev, ...newItems]);
   };
 
-  // drag overlay mengikuti scaling canvas (responsif)
-  const handleMouseDrag = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!overlay || !canvasRef.current) return;
+  // DRAG & MOVE OVERLAY
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!canvasRef.current) return;
 
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
+    const rect = canvasRef.current.getBoundingClientRect();
+    const scaleX = canvasRef.current.width / rect.width;
+    const scaleY = canvasRef.current.height / rect.height;
 
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
 
-    setOverlayPos({
-      x: (e.clientX - rect.left) * scaleX - 64,
-      y: (e.clientY - rect.top) * scaleY - 64,
-    });
+    const clicked = overlays.find((ov) => x >= ov.x && x <= ov.x + 160 && y >= ov.y && y <= ov.y + 160);
+
+    if (clicked) setActiveId(clicked.id);
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!canvasRef.current || activeId === null) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const scaleX = canvasRef.current.width / rect.width;
+    const scaleY = canvasRef.current.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX - 80;
+    const y = (e.clientY - rect.top) * scaleY - 80;
+
+    setOverlays((prev) => prev.map((ov) => (ov.id === activeId ? { ...ov, x, y } : ov)));
+  };
+
+  const handleMouseUp = () => setActiveId(null);
+
+  // UPLOAD FINAL IMAGE TO SUPABASE
+  // const handleUpload = async () => {
+  //   if (!canvasRef.current) return;
+
+  //   canvasRef.current.toBlob(async (blob) => {
+  //     if (!blob) return;
+
+  //     const fileName = `design-${Date.now()}.png`;
+
+  //     const { error } = await supabase.storage.from("images").upload(fileName, blob);
+
+  //     if (error) return alert("Upload error: " + error.message);
+
+  //     const { data: urlData } = supabase.storage.from("images").getPublicUrl(fileName);
+
+  //     await supabase.from("orders").insert([
+  //       {
+  //         title,
+  //         price,
+  //         total_orders,
+  //         whatsapp,
+  //         email,
+  //         product_type: productType,
+  //         image_url: urlData?.publicUrl,
+  //       },
+  //     ]);
+
+  //     alert("Berhasil disimpan!");
+  //   });
+  // };
   const handleUpload = async () => {
     if (!canvasRef.current) return;
 
-    const canvas = canvasRef.current;
-
-    canvas.toBlob(async (blob) => {
+    canvasRef.current.toBlob(async (blob) => {
       if (!blob) return;
-      const fileName = `edited-${Date.now()}.png`;
 
-      const { error } = await supabase.storage.from("images").upload(fileName, blob, { contentType: "image/png" });
+      const fileName = `design-${Date.now()}.png`;
 
-      if (error) {
-        console.error("Upload error:", error.message);
-        return;
-      }
+      // Upload gambar ke Supabase Storage
+      const { error } = await supabase.storage.from("images").upload(fileName, blob);
 
-      const { data: publicUrl } = supabase.storage.from("images").getPublicUrl(fileName);
+      if (error) return alert("Upload error: " + error.message);
 
-      const { error: insertError } = await supabase.from("orders").insert([
+      const { data: urlData } = supabase.storage.from("images").getPublicUrl(fileName);
+
+      // Insert ke database
+      await supabase.from("orders").insert([
         {
           title,
           price,
           total_orders,
           whatsapp,
           email,
-          image_url: publicUrl.publicUrl,
+          product_type: productType,
+          image_url: urlData?.publicUrl,
         },
       ]);
 
-      if (insertError) {
-        console.error("Insert error:", insertError.message);
-      } else {
-        alert("✅ Gambar & data berhasil diupload ke Supabase!");
+      alert("Berhasil disimpan!");
 
-        setBackground(null);
-        setOverlay(null);
-        setOverlayPos({ x: 50, y: 50 });
-        setTitle("");
-        setPrice(0);
-        setTotal_orders(1);
-        setWhatsapp("");
-        setEmail("");
+      // 🔥 RESET FORM
+      setTitle("");
+      setPrice(0);
+      setTotalOrders(1);
+      setWhatsapp("");
+      setEmail("");
 
-        const ctx = canvas.getContext("2d");
-        if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    }, "image/png");
+      // 🔥 RESET PRODUK & BACKGROUND
+      setProductType("tshirt");
+      setBackground(ImagesOrder.tshirt);
+
+      // 🔥 HAPUS SEMUA OVERLAY
+      setOverlays([]);
+
+      // render ulang canvas
+      renderCanvas();
+    });
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4 max-w-full py-18 lg:py-30">
-      {/* Upload Buttons */}
-      <div className="flex flex-wrap gap-4 lg:ml-5">
-        <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-          Upload Baju
-          <input type="file" accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
-        </label>
+    <div className="px-4 flex flex-col gap-6 py-20 lg:py-28">
+      {/* SELECT PRODUK */}
+      <div className="flex gap-4 flex-wrap">
+        <select className="border p-2" value={productType} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setProductType(e.target.value as ImageKeys)}>
+          <option value="tshirt">T-shirt</option>
+          <option value="longsleeve">Longsleeve</option>
+          <option value="hoodie">Hoodie</option>
+          <option value="sweatshirt">Sweatshirt</option>
+        </select>
 
-        <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-          Upload desain
-          <input type="file" accept="image/*" className="hidden" onChange={handleOverlayUpload} />
+        <label className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">
+          Upload Desain
+          <input type="file" multiple className="hidden" onChange={handleOverlayUpload} />
         </label>
       </div>
 
-      {/* Canvas Wrapper (RESPONSIVE) */}
+      {/* CANVAS */}
       <div className="w-full max-w-[1280px] mx-auto">
-        <canvas ref={canvasRef} onClick={handleMouseDrag} className="border bg-gray-200 w-full lg:h-[800px] h-[400px]" />
+        <canvas ref={canvasRef} onMouseDown={handleCanvasClick} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} className="border bg-gray-200 w-full h-[400px] lg:h-[800px]" />
       </div>
 
-      {/* Form */}
-      <div className="grid grid-cols-1 gap-2 lg:w-[1280px] w-full mx-auto">
-        <label htmlFor="title">Nama Pembeli</label>
-        <input className="border p-2" placeholder="Judul" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <label htmlFor="price">Harga yang diinginkan</label>
-        <input className="border p-2" type="number" placeholder="Harga" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
-        <label htmlFor="JumlahPesanan">Jumlah Pesanan</label>
-        <input className="border p-2" type="number" placeholder="Jumlah Pesanan" value={total_orders} onChange={(e) => setTotal_orders(Number(e.target.value))} />
-        <label htmlFor={title}>No Whatsapp yang aktif</label>
-        <input className="border p-2" placeholder="No WhatsApp" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
-        <label htmlFor={title}>Email</label>
-        <input className="border p-2" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      {/* FORM (TIDAK DIHILANGKAN) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input className="border p-2 rounded" placeholder="Nama Produk / Judul" value={title} onChange={(e) => setTitle(e.target.value)} />
+
+        <input type="number" className="border p-2 rounded" placeholder="Harga" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+
+        <input type="number" className="border p-2 rounded" placeholder="Jumlah Pesanan" value={total_orders} onChange={(e) => setTotalOrders(Number(e.target.value))} />
+
+        <input className="border p-2 rounded" placeholder="Nomor WhatsApp" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
+
+        <input className="border p-2 rounded" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
 
-      <button onClick={handleUpload} className="bg-green-600 text-white lg:ml-5 px-4 py-2 rounded w-fit">
-        Kirim
+      <button onClick={handleUpload} className="bg-green-600 text-white px-6 py-2 rounded text-lg w-fit cursor-pointer">
+        Kirim Pesanan
       </button>
     </div>
   );

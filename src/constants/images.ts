@@ -14,7 +14,7 @@ import graphql from '../assets/graphql.png';
 import hoodie from '../assets/hoodie.png';
 import html from '../assets/html.png';
 import javascript from '../assets/javascript.png';
-import kaos from '../assets/kaos.png';
+import kaos2 from '../assets/kaos.png';
 import mu5 from '../assets/mu5.png';
 import node from '../assets/node.png';
 import python from '../assets/python.png';
@@ -54,6 +54,12 @@ import igLogo from "../assets/instagram.png"
 import leftArrow from "../assets/leftArrow.png"
 import rightArrow from "../assets/rightArrow.png"
 
+
+// ImagesOrder
+import kaos from "../assets/Kaos (2).png"
+import kaosPolos from "../assets/kaospolos.png"
+import sweatshirt from "../assets/sweatshirt.png"
+
 export const images = {
   arrowLogo,
   arrowLogo2,
@@ -71,7 +77,7 @@ export const images = {
   hoodie,
   html,
   javascript,
-  kaos,
+  kaos2,
   mu5,
   node,
   python,
@@ -103,5 +109,17 @@ export const images = {
   whatsappLogo,
   igLogo,
   leftArrow,
-  rightArrow
+  rightArrow,
+  kaos
 };
+
+
+export const ImagesOrder = {
+  tshirt: kaosPolos,
+  longsleeve: kaos2,
+  hoodie: hoodie,
+  sweatshirt: sweatshirt,
+} as const;
+
+export type ImageKeys = keyof typeof ImagesOrder;
+
