@@ -29,20 +29,13 @@ function PublicHome() {
       <main className="flex flex-col gap-[70px]">
         <section className="grid lg:grid-cols-3 grid-cols-1 gap-3 p-8">
           {loading
-            ? Array.from({ length: 3 }).map((_, idx) => (
-                <div key={idx} className="p-4 border rounded bg-white animate-pulse">
-                  <div className="h-5 bg-gray-200 rounded w-[350px]"></div>
-                  <div className="h-3 bg-gray-200 rounded w-[350px]"></div>
-                  <div className="h-4 bg-gray-200 rounded w-[350px]"></div>
-                  <div className="h-4 bg-gray-200 rounded w-[350px]"></div>
-                </div>
-              ))
-            : items.map((item) => <Card key={item.id} id={item.id} title={item.title} created_at={new Date(item.created_at)} description={item.description} image={item.image} />)}
+            ? Array.from({ length: 3 }).map((_, idx) => <Card key={idx} title="" image="" description="" />)
+            : items.map((item) => <Card key={item.id} id={item.id} title={item.title} description={item.description} image={item.image} />)}
         </section>
       </main>
 
       <FloatingSidebar />
-      <ContactSection/>
+      <ContactSection />
     </>
   );
 }

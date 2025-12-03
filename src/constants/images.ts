@@ -4,7 +4,7 @@ import email from '../assets/email.png';
 import mobile from '../assets/mobile.png';
 import api from '../assets/api.png';
 import bag from '../assets/bag.png';
-import bajuPutih from '../assets/bajuPutih.png';
+import bajuPutih from '../assets/Kaos (2).png';
 import cpp from '../assets/cpp.png';
 import css from '../assets/css.png';
 import figma from '../assets/figma.png';

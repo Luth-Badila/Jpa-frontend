@@ -8,10 +8,11 @@ export default function ContactSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="px-6 bg-gradient-to-r from-green-400 via-lime-300 to-yellow-300
- py-24"
+ 
+        lg:py-24 py-15"
       >
         {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center p-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center px-10">
           <div>
             <h1 className="text-4xl font-bold mb-4">Get in touch with us</h1>
             <p className="text-gray-800 text-lg">Affordable Blank Apparel And Custom T–shirt</p>
@@ -34,17 +35,17 @@ export default function ContactSection() {
         {/* Contact Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-20">
           {/* HQ */}
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="text-2xl font-semibold mb-4">Jalan Pintas</h2>
             <p className="font-semibold mb-2">Contact Info</p>
-            <div className="border-t border-gray-300 my-3 w-1/2"></div>
+            <div className="border-t border-gray-300 my-3 w-1/2 mx-auto md:mx-0"></div>
             <p className="text-gray-700">0859 6416 8620</p>
           </div>
 
           {/* Address */}
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="font-semibold mb-2">Address</h2>
-            <div className="border-t border-gray-300 my-3 w-1/2"></div>
+            <div className="border-t border-gray-300 my-3 w-1/2 mx-auto md:mx-0"></div>
             <p className="text-gray-700 leading-relaxed">
               Gresikan RT 08/ RW 02, Krian, Kemasan
               <br />
@@ -57,15 +58,14 @@ export default function ContactSection() {
           </div>
 
           {/* Socials */}
-          <div>
+          <div className="text-center md:text-left">
             <h2 className="font-semibold mb-2">We are on Socials</h2>
-            <div className="border-t border-gray-300 my-3 w-1/2"></div>
+            <div className="border-t border-gray-300 my-3 w-1/2 mx-auto md:mx-0"></div>
 
-            <div className="flex items-center gap-6 text-gray-800 text-lg">
+            <div className="flex items-center justify-center md:justify-start gap-6 text-gray-800 text-lg">
               <a href="#" className="flex items-center gap-2 hover:text-black transition">
                 Tiktok
               </a>
-
               <a href="#" className="flex items-center gap-2 hover:text-black transition">
                 Instagram
               </a>
