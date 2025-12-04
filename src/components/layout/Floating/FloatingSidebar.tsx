@@ -11,9 +11,9 @@ const FloatingSidebar: React.FC = () => {
   // Detect window size
   useEffect(() => {
     const updateSize = () => {
-      if (window.innerWidth < 640) setSize("mobile");         // mobile
-      else if (window.innerWidth < 1024) setSize("tablet");   // tablet
-      else setSize("desktop");                                // desktop
+      if (window.innerWidth < 640) setSize("mobile");
+      else if (window.innerWidth < 1024) setSize("tablet");
+      else setSize("desktop");          
     };
 
     updateSize();

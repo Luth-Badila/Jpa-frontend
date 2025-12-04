@@ -51,7 +51,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
       </ul>
 
       {/* Desktop Order Icon */}
-      <Link to="/order" className="hidden md:block">
+      <Link to="" className="hidden md:block">
         <img src={images.arrowLogo} alt="arrow-logo" className="lg:w-20 w-10" />
       </Link>
 
@@ -116,7 +116,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
             </motion.ul>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-              <Link to="/order" onClick={() => setIsOpen(false)}>
+              <Link to="" onClick={() => setIsOpen(false)}>
                 <img src={images.arrowLogo} alt="arrow-logo" className="w-16" />
               </Link>
             </motion.div>

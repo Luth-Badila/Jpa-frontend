@@ -52,8 +52,18 @@ export interface Product {
   price: number;
 }
 
-// Mini Sidebar 
+// Mini Sidebar
 export interface SidebarItemProps {
   icon: string;
   label: string;
+}
+// Input Order
+export interface OverlayItem {
+  id: number;
+  src: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rotation: number;
 }
