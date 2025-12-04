@@ -1,298 +1,314 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { fabric } from "fabric";
 import { supabase } from "../api/supabaseClient";
-import { ImagesOrder, type ImageKeys } from "../constants/images";
-import { OverlayItem } from "../types";
-import ProductSelect from "./ProductOverlaySelect";
+import { ImagesOrder } from "../constants/images";
 
-export default function InputOrder() {
+type ProductType = "tshirt" | "hoodie" | "longsleeve" | "sweatshirt";
+
+const mockupImages: Record<ProductType, string> = {
+  tshirt: ImagesOrder.tshirt,
+  hoodie: ImagesOrder.hoodie,
+  longsleeve: ImagesOrder.longsleeve,
+  sweatshirt: ImagesOrder.sweatshirt,
+};
+
+export default function CanvasEditor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const bgImageRef = useRef<HTMLImageElement | null>(null);
+  const fabricRef = useRef<fabric.Canvas | null>(null);
+  const mockupRef = useRef<fabric.Image | null>(null);
 
-  const [productType, setProductType] = useState<ImageKeys>("tshirt");
-  const [background, setBackground] = useState(ImagesOrder.tshirt);
-
-  const [overlays, setOverlays] = useState<OverlayItem[]>([]);
-  const [activeId, setActiveId] = useState<number | null>(null);
-  const [dragMode, setDragMode] = useState<"move" | "resize" | "rotate" | null>(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-  // FORM STATE
+  const [productType, setProductType] = useState<ProductType>("tshirt");
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState(50000);
   const [total_orders, setTotalOrders] = useState<number>(1);
-  const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // === UPDATE BACKGROUND KETIKA PRODUCTTYPE BERUBAH ===
+  // INIT CANVAS
   useEffect(() => {
-    setBackground(ImagesOrder[productType]);
+    if (!canvasRef.current) return;
+
+    fabricRef.current = new fabric.Canvas(canvasRef.current, {
+      width: 500,
+      height: 500,
+      backgroundColor: "#ffffff",
+      preserveObjectStacking: true,
+    });
+
+    return () => {
+      fabricRef.current?.dispose();
+    };
+  }, []);
+
+  // LOAD MOCKUP
+  // useEffect(() => {
+  //   const canvas = fabricRef.current;
+  //   if (!canvas) return;
+
+  //   // Hapus mockup lama jika ada
+  //   if (mockupRef.current) {
+  //     canvas.remove(mockupRef.current);
+  //     mockupRef.current = null;
+  //   }
+
+  //   const url = mockupImages[productType];
+
+  //   // fabric.Image.fromURL(url, (img) => {
+  //   //   if (!fabricRef.current) return;
+
+  //   //   // Atur mockup (tidak bisa dipilih)
+  //   //   img.set({
+  //   //     selectable: false,
+  //   //     evented: false,
+  //   //   });
+
+  //   //   img.scaleToWidth(canvas.getWidth());
+
+  //   //   mockupRef.current = img;
+
+  //   //   canvas.add(img);          // tambahkan mockup
+  //   //   canvas.sendToBack(img);   // pastikan selalu di belakang
+  //   //   canvas.renderAll();
+  //   // });
+  //   fabric.Image.fromURL(url, (img) => {
+  //     const canvas = fabricRef.current;
+
+  //     if (!canvas || !canvas.contextContainer) return;
+
+  //     canvas.renderAll();
+
+  //     img.set({
+  //       selectable: false,
+  //       evented: false,
+  //     });
+
+  //     img.scaleToWidth(canvas.getWidth());
+
+  //     mockupRef.current = img;
+
+  //     canvas.add(img);
+  //     canvas.sendToBack(img);
+
+  //     // SAFE RENDER
+  //     if (!canvas || !canvas.contextContainer) {
+  //       canvas.renderAll();
+  //     }
+  //   });
+  // }, [productType]);
+  // LOAD MOCKUP
+  // LOAD MOCKUP FIX 100% WORKING
+  useEffect(() => {
+    const canvas = fabricRef.current;
+    if (!canvas) return;
+
+    // Hapus semua object kecuali overlay user
+    canvas.getObjects().forEach((obj) => {
+      if (obj !== mockupRef.current) {
+        canvas.remove(obj);
+      }
+    });
+
+    // Buang mockup lama
+    if (mockupRef.current) {
+      canvas.remove(mockupRef.current);
+      mockupRef.current = null;
+    }
+
+    // Anti-cache supaya gambar SELALU reload
+    const finalUrl = mockupImages[productType] + "?cache=" + Math.random();
+
+    fabric.Image.fromURL(
+      finalUrl,
+      (img) => {
+        const canvas = fabricRef.current;
+        if (!canvas) return;
+
+        img.set({
+          selectable: false,
+          evented: false,
+        });
+
+        img.scaleToWidth(canvas.getWidth());
+
+        mockupRef.current = img;
+
+        // Masukkan mockup PASTI DI BELAKANG
+        canvas.insertAt(img, 0, false);
+
+        canvas.renderAll();
+      },
+      { crossOrigin: "anonymous" }
+    );
   }, [productType]);
 
-  // === LOAD BACKGROUND IMAGE ===
-  useEffect(() => {
-    const img = new Image();
-    img.src = background;
+  // ADD OVERLAY
+  const handleAddOverlay = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const canvas = fabricRef.current;
+    if (!canvas) return;
 
-    img.onload = () => {
-      bgImageRef.current = img;
-      renderCanvas();
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      fabric.Image.fromURL(reader.result as string, (img) => {
+        img.scaleToWidth(200);
+        img.set({
+          left: 150,
+          top: 150,
+          selectable: true,
+        });
+
+        canvas.add(img);
+        canvas.setActiveObject(img);
+        canvas.renderAll();
+      });
     };
-  }, [background, overlays]);
 
-  // === DRAW CANVAS ===
-  const renderCanvas = useCallback(() => {
-    if (!canvasRef.current || !bgImageRef.current) return;
+    reader.readAsDataURL(file);
+  };
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = 1280;
-    canvas.height = 720;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // gambar background
-    ctx.drawImage(bgImageRef.current, 0, 0, canvas.width, canvas.height);
-
-    // gambar overlay
-    overlays.forEach((ov) => {
-      const img = new Image();
-      img.src = ov.src;
-
-      img.onload = () => {
-        ctx.save();
-        ctx.translate(ov.x + ov.w / 2, ov.y + ov.h / 2);
-        ctx.rotate(ov.rotation);
-        ctx.drawImage(img, -ov.w / 2, -ov.h / 2, ov.w, ov.h);
-        ctx.restore();
-
-        // Border
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(ov.x, ov.y, ov.w, ov.h);
-
-        // Resize handle
-        ctx.fillStyle = "red";
-        ctx.fillRect(ov.x + ov.w - 12, ov.y + ov.h - 12, 12, 12);
-
-        // Rotate handle
-        ctx.fillStyle = "yellow";
-        ctx.beginPath();
-        ctx.arc(ov.x + ov.w / 2, ov.y - 20, 8, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Delete handle
-        ctx.fillStyle = "black";
-        ctx.fillRect(ov.x - 15, ov.y - 15, 15, 15);
-      };
-    });
-  }, [overlays]);
-
+  // DELETE OVERLAY (DELETE KEY)
   useEffect(() => {
-    renderCanvas();
-  }, [overlays, renderCanvas]);
+    const handler = (e: KeyboardEvent) => {
+      const canvas = fabricRef.current;
+      if (!canvas) return;
 
-  // === UPLOAD OVERLAY ===
-  const handleOverlayUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-
-    const files = Array.from(e.target.files);
-
-    const newItems = files.map((file, idx) => ({
-      id: Date.now() + idx,
-      src: URL.createObjectURL(file),
-      x: 100,
-      y: 100,
-      w: 180,
-      h: 180,
-      rotation: 0,
-    }));
-
-    setOverlays((prev) => [...prev, ...newItems]);
-  };
-
-  // === CHECK AREA ===
-  const isInside = (ov: OverlayItem, x: number, y: number) => x >= ov.x && x <= ov.x + ov.w && y >= ov.y && y <= ov.y + ov.h;
-
-  const isResizeHandle = (ov: OverlayItem, x: number, y: number) => x >= ov.x + ov.w - 15 && y >= ov.y + ov.h - 15;
-
-  const isRotateHandle = (ov: OverlayItem, x: number, y: number) => {
-    const cx = ov.x + ov.w / 2;
-    const cy = ov.y - 20;
-    return Math.hypot(x - cx, y - cy) < 12;
-  };
-
-  const isDeleteHandle = (ov: OverlayItem, x: number, y: number) => x >= ov.x - 15 && x <= ov.x && y >= ov.y - 15 && y <= ov.y;
-
-  // === MOUSE DOWN ===
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current) return;
-
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (canvasRef.current.width / rect.width);
-    const y = (e.clientY - rect.top) * (canvasRef.current.height / rect.height);
-
-    for (const ov of overlays) {
-      if (isDeleteHandle(ov, x, y)) {
-        setOverlays((prev) => prev.filter((i) => i.id !== ov.id));
-        return;
+      if (e.key === "Delete" || e.key === "Backspace") {
+        const active = canvas.getActiveObject();
+        if (active) {
+          canvas.remove(active);
+          canvas.discardActiveObject();
+          canvas.renderAll();
+        }
       }
+    };
 
-      if (isResizeHandle(ov, x, y)) {
-        setActiveId(ov.id);
-        setDragMode("resize");
-        return;
-      }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
-      if (isRotateHandle(ov, x, y)) {
-        setActiveId(ov.id);
-        setDragMode("rotate");
-        return;
-      }
+  // SUBMIT ORDER
+  const handleSubmit = async () => {
+    const canvas = fabricRef.current;
+    if (!canvas) return;
 
-      if (isInside(ov, x, y)) {
-        setActiveId(ov.id);
-        setDragMode("move");
-        setOffset({ x: x - ov.x, y: y - ov.y });
-        return;
-      }
+    if (!title || !email || !whatsapp) {
+      alert("Form masih ada yang kosong!");
+      return;
     }
-  };
 
-  // === MOUSE MOVE ===
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current || !dragMode || activeId === null) return;
+    setLoading(true);
 
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (canvasRef.current.width / rect.width);
-    const y = (e.clientY - rect.top) * (canvasRef.current.height / rect.height);
+    try {
+      // Export canvas → PNG
+      const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
+      const blob = await (await fetch(dataUrl)).blob();
+      const fileName = `order_${Date.now()}.png`;
 
-    setOverlays((prev) =>
-      prev.map((ov) => {
-        if (ov.id !== activeId) return ov;
+      // Upload ke bucket "images"
+      const { error: uploadError } = await supabase.storage.from("images").upload(`orders/${fileName}`, blob, {
+        contentType: "image/png",
+        upsert: false,
+      });
 
-        if (dragMode === "move") {
-          return { ...ov, x: x - offset.x, y: y - offset.y };
-        }
+      if (uploadError) throw uploadError;
 
-        if (dragMode === "resize") {
-          return { ...ov, w: x - ov.x, h: y - ov.y };
-        }
+      // Get public link
+      const { data: urlData } = supabase.storage.from("images").getPublicUrl(`orders/${fileName}`);
 
-        if (dragMode === "rotate") {
-          const cx = ov.x + ov.w / 2;
-          const cy = ov.y + ov.h / 2;
-          return { ...ov, rotation: Math.atan2(y - cy, x - cx) };
-        }
+      const imageUrl = urlData.publicUrl;
 
-        return ov;
-      })
-    );
-  };
-
-  const handleMouseUp = () => {
-    setDragMode(null);
-    setActiveId(null);
-  };
-
-  // === UPLOAD ORDER ===
-  const handleUpload = async () => {
-    if (!canvasRef.current) return;
-
-    canvasRef.current.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const fileName = `design-${Date.now()}.png`;
-
-      const { error } = await supabase.storage.from("images").upload(fileName, blob);
-      if (error) return alert(error.message);
-
-      const { data: urlData } = supabase.storage.from("images").getPublicUrl(fileName);
-
-      await supabase.from("orders").insert([
+      // Insert ke database
+      const { error: insertError } = await supabase.from("orders").insert([
         {
           title,
+          product_type: productType,
           price,
           total_orders,
           whatsapp,
           email,
-          product_type: productType,
-          image_url: urlData?.publicUrl,
+          image_url: imageUrl,
         },
       ]);
 
-      alert("Berhasil disimpan!");
+      if (insertError) throw insertError;
 
+      alert("Order berhasil dikirim!");
       setTitle("");
-      setPrice(0);
+      setProductType("tshirt");
+      setEmail("");
       setTotalOrders(1);
       setWhatsapp("");
-      setEmail("");
-      setProductType("tshirt");
-      setOverlays([]);
-    });
+      setPrice(50000);
+    } catch (err) {
+      console.error(err);
+      alert("Gagal mengirim order!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="px-4 flex flex-col gap-6 py-20 lg:py-28">
-      {/* SELECT PRODUK */}
-      <div className="flex gap-4 flex-wrap">
-        {/* <select className="border p-2" value={productType} onChange={(e) => setProductType(e.target.value as ImageKeys)}>
-          <option value="tshirt">T-shirt</option>
-          <option value="longsleeve">Longsleeve</option>
-          <option value="hoodie">Hoodie</option>
-          <option value="sweatshirt">Sweatshirt</option>
-        </select> */}
-        <ProductSelect value={productType} onChange={(val) => setProductType(val as ImageKeys)} />
-
-        <label className="bg-green-600 text-white px-4 py-2 rounded cursor-pointer">
-          Upload Desain
-          <input type="file" multiple className="hidden" onChange={handleOverlayUpload} />
-        </label>
-      </div>
-
-      {/* CANVAS */}
-      <div className="w-full max-w-[1280px] mx-auto">
-        <canvas ref={canvasRef} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} className="border w-full h-[400px] lg:h-[1000px]" />
-      </div>
-
+    <div className="px-6 grid grid-cols-2 gap-6 py-18 lg:py-40">
       {/* FORM */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label>Nama Pembeli</label>
-          <input className="border p-2 rounded" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <div className="space-y-4">
+        <h2 className="font-bold text-xl">Form Order</h2>
+
+        <div>
+          <label>Title</label>
+          <input className="border p-2 w-full" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
-        <div className="flex flex-col">
-          <label>Pilihan Harga</label>
-          <select className="border p-2 rounded" value={price || ""} onChange={(e) => setPrice(Number(e.target.value))}>
-            <option value="">-- Pilih Harga --</option>
-            <option value={50000}>Rp 50.000</option>
-            <option value={60000}>Rp 60.000</option>
-            <option value={75000}>Rp 75.000</option>
+        <div>
+          <label>Pilih Produk</label>
+          <select className="border p-2 w-full" value={productType} onChange={(e) => setProductType(e.target.value as ProductType)}>
+            <option value="tshirt">T-shirt</option>
+            <option value="longsleeve">Longsleeve</option>
+            <option value="hoodie">Hoodie</option>
+            <option value="sweatshirt">Sweatshirt</option>
           </select>
         </div>
 
-        <div className="flex flex-col">
+        <div>
+          <label>Upload Overlay</label>
+          <input type="file" accept="image/*" onChange={handleAddOverlay} />
+        </div>
+
+        <div>
+          <label>Harga</label>
+          <select className="border p-2 w-full" value={price} onChange={(e) => setPrice(Number(e.target.value))}>
+            <option value={50000}>50.000</option>
+            <option value={60000}>60.000</option>
+            <option value={75000}>75.000</option>
+          </select>
+        </div>
+
+        <div>
           <label>Jumlah Pesanan</label>
           <input type="number" className="border p-2 rounded" value={total_orders} onChange={(e) => setTotalOrders(Number(e.target.value))} />
         </div>
 
-        <div className="flex flex-col">
-          <label>WhatsApp</label>
-          <input className="border p-2 rounded" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
+        <div>
+          <label>Whatsapp</label>
+          <input className="border p-2 w-full" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
         </div>
 
-        <div className="flex flex-col">
+        <div>
           <label>Email</label>
-          <input className="border p-2 rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input className="border p-2 w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
+
+        <button onClick={handleSubmit} disabled={loading} className="bg-green-600 text-white px-4 py-2 rounded mt-4">
+          {loading ? "Mengirim..." : "Kirim Order"}
+        </button>
       </div>
 
-      <button onClick={handleUpload} className="bg-green-600 text-white px-6 py-2 rounded text-lg w-fit cursor-pointer">
-        Kirim Pesanan
-      </button>
+      {/* CANVAS */}
+      <div className="flex justify-center">
+        <canvas ref={canvasRef} className="border shadow-lg rounded" />
+      </div>
     </div>
   );
 }
