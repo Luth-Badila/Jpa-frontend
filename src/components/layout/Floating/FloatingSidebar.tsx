@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { images } from "../../../constants";
 import { FloatingSidebarItem } from "../../FloatingSidebarItems";
@@ -6,17 +6,40 @@ import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 
 const FloatingSidebar: React.FC = () => {
   const [open, setOpen] = useState<boolean>(true);
+  const [size, setSize] = useState<"mobile" | "tablet" | "desktop">("desktop");
+
+  // Detect window size
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth < 640) setSize("mobile");         // mobile
+      else if (window.innerWidth < 1024) setSize("tablet");   // tablet
+      else setSize("desktop");                                // desktop
+    };
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
+  // Dynamic size per breakpoint
+  const sidebarSize = {
+    mobile: { w: 65, h: 180, scale: 0.85 },
+    tablet: { w: 100, h: 210, scale: 0.9 },
+    desktop: { w: 110, h: 250, scale: 1 },
+  };
+
+  const current = sidebarSize[size];
 
   return (
-    <motion.div className={`fixed bottom-10 z-50 ${open ? "right-5" : "right-0"}`}>
-      
+    <motion.div className={`fixed lg:bottom-10 bottom-1 z-50 ${open ? "lg:right-5 right-2" : "right-0"}`}>
+
       {/* SIDEBAR WRAPPER */}
       <motion.div
         animate={{
-          width: open ? 115 : 55,
-          height: open ? 250 : 55,
+          width: open ? current.w : current.w * 0.45,
+          height: open ? current.h : current.h * 0.25,
           opacity: open ? 1 : 0.95,
-          scale: open ? 1 : 0.50,
+          scale: open ? current.scale : current.scale * 0.65,
         }}
         transition={{
           type: "spring",
@@ -27,15 +50,8 @@ const FloatingSidebar: React.FC = () => {
         className="
           bg-gradient-to-b from-green-400 to-green-600 
           text-white shadow-xl 
-
           rounded-tr-[32px] rounded-bl-[32px] rounded-tl-[10px] rounded-br-[10px]
-          py-5 px-2
-
-          md:rounded-tr-[38px] md:rounded-bl-[38px] md:py-6 md:w-[125px]
-          lg:rounded-tr-[40px] lg:rounded-bl-[40px] lg:py-7 lg:w-[150px]
-          
-          flex flex-col items-center 
-          origin-right relative
+          py-5 px-2 flex flex-col items-center origin-right relative
         "
       >
 
@@ -54,6 +70,12 @@ const FloatingSidebar: React.FC = () => {
             delay: open ? 0.1 : 0,
           }}
           className={`flex flex-col gap-5 mt-2 ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+          style={{
+            zoom:
+              size === "mobile" ? 0.8 :
+              size === "tablet" ? 0.9 :
+              1,
+          }}
         >
           <FloatingSidebarItem icon={images.igLogo} label="Instagram" />
           <FloatingSidebarItem icon={images.whatsappLogo} label="WhatsApp" />
@@ -78,8 +100,12 @@ const FloatingSidebar: React.FC = () => {
             flex items-center justify-center cursor-pointer
             bg-white/20 backdrop-blur-sm text-white 
             border border-white/30 shadow-md 
-            w-9 h-9 rounded-full mt-4 md:w-10 md:h-10 lg:w-11 lg:h-11
+            rounded-full mt-4
           "
+          style={{
+            width: size === "mobile" ? 34 : size === "tablet" ? 38 : 44,
+            height: size === "mobile" ? 34 : size === "tablet" ? 38 : 44,
+          }}
         >
           <motion.span
             key={open ? "open" : "closed"}
@@ -90,6 +116,9 @@ const FloatingSidebar: React.FC = () => {
               damping: 20,
             }}
             className="text-white text-2xl font-bold flex items-center justify-center"
+            style={{
+              fontSize: size === "mobile" ? "18px" : size === "tablet" ? "20px" : "24px",
+            }}
           >
             {open ? <FiChevronRight /> : <FiChevronLeft />}
           </motion.span>

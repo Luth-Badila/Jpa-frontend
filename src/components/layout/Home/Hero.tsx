@@ -112,7 +112,7 @@ export default function Hero() {
         whileInView="visible"
         viewport={{ once: true }}
         className="flex flex-row lg:flex-col justify-center lg:justify-evenly items-center 
-        lg:items-start flex-1 gap-4 sm:gap-6 lg:gap-8 z-10 lg:ml-15 ml-0 lg:mt-0 mt-5"
+        lg:items-start flex-1 gap-4 sm:gap-6 lg:gap-8 z-10 lg:mr-25 mr-0 lg:mt-0 mt-5"
       >
         {/* Circle 1 */}
         <div className="w-[70px] sm:w-[90px] lg:w-[100px] h-[70px] sm:h-[90px] lg:h-[100px] rounded-full bg-white shadow-md flex justify-center items-center">
