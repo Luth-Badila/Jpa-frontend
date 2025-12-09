@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { supabase } from "../api/supabaseClient";
 import { ImagesOrder } from "../constants/images";
+import ProductSelect from "./ProductOverlaySelect";
 
 type ProductType = "tshirt" | "hoodie" | "longsleeve" | "sweatshirt";
 
@@ -258,27 +259,31 @@ export default function CanvasEditor() {
 
         <div>
           <label>Title</label>
-          <input className="border p-2 w-full" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input className="border p-2 w-full mt-1" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
         <div>
           <label>Pilih Produk</label>
-          <select className="border p-2 w-full" value={productType} onChange={(e) => setProductType(e.target.value as ProductType)}>
-            <option value="tshirt">T-shirt</option>
-            <option value="longsleeve">Longsleeve</option>
-            <option value="hoodie">Hoodie</option>
-            <option value="sweatshirt">Sweatshirt</option>
-          </select>
+          <ProductSelect value={productType} onChange={(val) => setProductType(val as ProductType)} />
         </div>
 
-        <div>
-          <label>Upload Overlay</label>
-          <input type="file" accept="image/*" onChange={handleAddOverlay} />
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-medium text-gray-700">Upload Overlay</label>
+
+          <label className="flex items-center gap-2 justify-center w-full px-4 py-2 bg-yellow-400 text-white rounded-lg cursor-pointer hover:bg-yellow-500 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v.75A2.25 2.25 0 005.25 19.5h13.5A2.25 2.25 0 0021 17.25v-.75M7.5 12l4.5-4.5L16.5 12m-4.5-4.5V15" />
+            </svg>
+
+            <span>Pilih Gambar</span>
+
+            <input type="file" accept="image/*" onChange={handleAddOverlay} className="hidden" />
+          </label>
         </div>
 
         <div>
           <label>Harga</label>
-          <select className="border p-2 w-full" value={price} onChange={(e) => setPrice(Number(e.target.value))}>
+          <select className="border p-2 w-full mt-1" value={price} onChange={(e) => setPrice(Number(e.target.value))}>
             <option value={50000}>50.000</option>
             <option value={60000}>60.000</option>
             <option value={75000}>75.000</option>
@@ -287,20 +292,20 @@ export default function CanvasEditor() {
 
         <div>
           <label>Jumlah Pesanan</label>
-          <input type="number" className="border p-2 rounded" value={total_orders} onChange={(e) => setTotalOrders(Number(e.target.value))} />
+          <input type="number" className="border p-2 rounded w-full mt-1" value={total_orders} onChange={(e) => setTotalOrders(Number(e.target.value))} />
         </div>
 
         <div>
           <label>Whatsapp</label>
-          <input className="border p-2 w-full" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
+          <input className="border p-2 w-full mt-1" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
         </div>
 
         <div>
           <label>Email</label>
-          <input className="border p-2 w-full" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input className="border p-2 w-full mt-1" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
 
-        <button onClick={handleSubmit} disabled={loading} className="bg-green-600 text-white px-4 py-2 rounded mt-4">
+        <button onClick={handleSubmit} disabled={loading} className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded mt-4 cursor-pointer">
           {loading ? "Mengirim..." : "Kirim Order"}
         </button>
       </div>

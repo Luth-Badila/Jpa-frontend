@@ -50,6 +50,7 @@ export interface Product {
   name: string;
   category: string;
   price: number;
+  image_product: string;
 }
 
 // Mini Sidebar

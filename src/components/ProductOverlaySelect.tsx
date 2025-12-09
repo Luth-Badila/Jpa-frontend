@@ -17,7 +17,7 @@ export default function ProductSelect({ value, onChange }: ProductSelectProps) {
   ];
 
   return (
-    <div className="relative w-52">
+    <div className="relative w-full">
       {/* Selected box */}
       <div className="border p-2 rounded cursor-pointer bg-white flex justify-between items-center" onClick={() => setOpen(!open)}>
         {items.find((i) => i.value === value)?.label}

@@ -12,7 +12,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Product", href: "/product", isRoute: true },
-    { label: "How to order", href: "/how-to-order", isRoute: true },
+    { label: "How to order", href: "/", isRoute: true },
   ];
 
   // Menu untuk halaman order (full route)
@@ -20,7 +20,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
     { label: "Home", href: "/", isRoute: true },
     { label: "About", href: "/about", isRoute: true },
     { label: "Product", href: "/product", isRoute: true },
-    { label: "How to order", href: "/how-to-order", isRoute: true },
+    { label: "How to order", href: "/", isRoute: true },
   ];
 
   const menus = mode === "home" ? homeMenus : orderMenus;
