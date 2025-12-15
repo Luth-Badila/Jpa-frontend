@@ -8,10 +8,16 @@ import Navbar from "../components/Navbar";
 // import HelpIcon from "../components/HelpIcon";
 import FloatingSidebar from "../components/layout/Floating/FloatingSidebar";
 import ContactSection from "../components/ContactSection";
+import { usePageMeta } from "../hooks/usePageMeta";
 
 function PublicHome() {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
+
+  usePageMeta({
+    title: "Jalan Pintas",
+    description: "Produk sablon Jalan Pintas Art.",
+  });
 
   useEffect(() => {
     (async () => {
