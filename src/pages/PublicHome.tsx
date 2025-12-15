@@ -29,8 +29,12 @@ function PublicHome() {
 
   return (
     <>
+      {/* SEO INTRO TEXT (dibaca Google) */}
+      <h1 className="sr-only">Jalan Pintas Art - Jasa Sablon Kaos Berkualitas di Sidoarjo</h1>
+
+      <p className="sr-only">Jalan Pintas Art melayani sablon kaos, hoodie, dan apparel custom dengan kualitas terbaik dan harga merakyat di Sidoarjo.</p>
       <Navbar />
-      <Hero />
+      <Hero  aria-label="Hero Jalan Pintas Art - Jasa Sablon Kaos di Sidoarjo"  />
 
       <main className="flex flex-col gap-[70px]">
         <section className="grid lg:grid-cols-3 grid-cols-1 gap-3 p-8">
