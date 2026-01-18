@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { supabase } from "../api/supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 
 export default function ImageEditor() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);

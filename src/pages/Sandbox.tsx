@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { supabase } from "../api/supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 
 export default function ImageEditor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -76,19 +76,14 @@ export default function ImageEditor() {
     <div className="flex flex-col items-center space-y-4">
       {/* uploaders */}
       <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-        
-        Upload Background 
+        Upload Background
         <input type="file" accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
-        
       </label>
-     
+
       <label className="cursor-pointer bg-green-500 text-white px-4 py-2 rounded">
-        
         Upload Overlay
         <input type="file" accept="image/*" className="hidden" onChange={handleOverlayUpload} />
-        
       </label>
-     
 
       {/* editor */}
       <div ref={containerRef} className="relative border w-[600px] h-[400px] bg-gray-200">

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
-import { supabase } from "../api/supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 import { ImagesOrder } from "../constants/images";
 import ProductSelect from "./ProductOverlaySelect";
 

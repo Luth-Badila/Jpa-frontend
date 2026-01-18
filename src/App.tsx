@@ -12,6 +12,9 @@ import HowToOrder from "./pages/HowToOrder";
 import MainInputOrder from "./pages/MainInputOrder";
 import Product from "./pages/Product";
 import About from "./pages/About";
+import Login from "./components/Login/login";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
@@ -20,22 +23,27 @@ const App: React.FC = () => {
       <Route path="/" element={<PublicHome />} />
 
       {/* Main Website */}
-      <Route path="/dashboard" element={<DashboardHome />} />
       <Route path="/about" element={<About />} />
       <Route path="/product" element={<Product />} />
       <Route path="/how-to-order" element={<HowToOrder />} />
       <Route path="/order" element={<MainInputOrder />} />
 
       {/* For Dashboard */}
-      <Route path="/items" element={<ItemsListPage />} />
-      <Route path="/items/new" element={<ItemFormPage />} />
-      <Route path="/items/:id" element={<ItemDetailPage />} />
-      <Route path="/items/:id/edit" element={<ItemFormPage />} />
-      <Route path="/edit" element={<EditPage />} />
-      {/* <Route path="/order" element={<OrderPage />} /> */}
+      <Route path="/login" element={<Login />} />
+      {/* Only Access When Login */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/dashboard" element={<DashboardHome />} />
+        <Route path="/items" element={<ItemsListPage />} />
+        <Route path="/items/new" element={<ItemFormPage />} />
+        <Route path="/items/:id" element={<ItemDetailPage />} />
+        <Route path="/items/:id/edit" element={<ItemFormPage />} />
+        <Route path="/edit" element={<EditPage />} />
+        <Route path="/sandbox" element={<Sandbox />} />
+        <Route path="/sandbox-input" element={<SandboxInput />} />
+      </Route>
 
-      <Route path="/sandbox" element={<Sandbox />} />
-      <Route path="/sandbox-input" element={<SandboxInput />} />
+      {/* 404 NOT FOUND */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

@@ -7,7 +7,7 @@ import Card from "../components/layout/Home/Card";
 import Navbar from "../components/Navbar";
 // import HelpIcon from "../components/HelpIcon";
 import FloatingSidebar from "../components/layout/Floating/FloatingSidebar";
-import ContactSection from "../components/ContactSection";
+import Footer from "../components/Footer";
 import { usePageMeta } from "../hooks/usePageMeta";
 
 function PublicHome() {
@@ -34,7 +34,7 @@ function PublicHome() {
 
       <p className="sr-only">Jalan Pintas Art melayani sablon kaos, hoodie, dan apparel custom dengan kualitas terbaik dan harga merakyat di Sidoarjo.</p>
       <Navbar />
-      <Hero  aria-label="Hero Jalan Pintas Art - Jasa Sablon Kaos di Sidoarjo"  />
+      <Hero aria-label="Hero Jalan Pintas Art - Jasa Sablon Kaos di Sidoarjo" />
 
       <main className="flex flex-col gap-[70px]">
         <section className="grid lg:grid-cols-3 grid-cols-1 gap-3 p-8">
@@ -45,7 +45,7 @@ function PublicHome() {
       </main>
 
       <FloatingSidebar />
-      <ContactSection />
+      <Footer />
     </>
   );
 }

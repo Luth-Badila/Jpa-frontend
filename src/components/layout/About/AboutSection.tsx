@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { supabase } from "../../../api/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import { AboutSection } from "../../../types";
 
 export default function AboutSection() {

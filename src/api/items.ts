@@ -1,8 +1,8 @@
-import { supabase } from "./supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 import { type Item } from "../types";
 
 export const getItems = async (): Promise<Item[]> => {
-  const { data, error } = await supabase.from("items").select("*").order("created_at", { ascending: false });
+  const { data, error } = await supabase.from("items").select("*").order("created_at", { ascending: true });
   if (error) throw error;
   return data || [];
 };

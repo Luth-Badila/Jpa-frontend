@@ -4,11 +4,14 @@ import { BrowserRouter } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import "./index.css";
 import App from "./App";
+import { AuthProvider } from "./context/AuthProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
     <Analytics />
   </StrictMode>

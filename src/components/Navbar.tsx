@@ -51,7 +51,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
       </ul>
 
       {/* Desktop Order Icon */}
-      <Link to="" className="hidden md:block">
+      <Link to="/order" className="hidden md:block">
         <img src={images.arrowLogo} alt="arrow-logo" className="lg:w-20 w-10" />
       </Link>
 

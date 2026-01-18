@@ -1,11 +1,25 @@
-function Footer() {
-  return (
-    <footer className="bg-black py-10 flex justify-center items-center">
-      <div className="w-full max-w-7xl px-4 flex flex-col lg:flex-row gap-10">
-        <div className="flex-1">
-          <h1 className="text-center text-orange-400 text-4xl font-bold mb-4">Our Location</h1>
+import { motion } from "motion/react";
 
-          <div className="relative w-full h-[350px] md:h-[450px] rounded-xl overflow-hidden shadow-xl">
+export default function ContactSection() {
+  return (
+    <>
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="px-6 bg-gradient-to-r from-green-400 via-lime-300 to-yellow-300
+ 
+        lg:py-24 py-15"
+      >
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center px-10">
+          <div>
+            <h1 className="text-4xl font-bold mb-4">Get in touch with us</h1>
+            <p className="text-gray-800 text-lg">Affordable Blank Apparel And Custom T–shirt</p>
+          </div>
+
+          {/* Image */}
+          <motion.div className="relative w-full h-[350px] md:h-[450px] rounded-xl overflow-hidden shadow-xl">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.518726913619!2d112.5789235741143!3d-7.407694372945834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e3a6561026b3%3A0xae2c92cf5431a709!2sJalan%20Pintas%20sablon%20%26%20konveksi!5e0!3m2!1sen!2sid!4v1764125990950!5m2!1sen!2sid"
               className="absolute inset-0 w-full h-full border-0"
@@ -15,11 +29,50 @@ function Footer() {
             ></iframe>
 
             <a href="https://maps.app.goo.gl/PYdvqULpZkkTBpBL9" target="_blank" className="absolute inset-0 bg-transparent cursor-pointer" title="Klik untuk buka di Google Maps"></a>
+          </motion.div>
+        </div>
+
+        {/* Contact Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14 mt-20">
+          {/* HQ */}
+          <div className="text-center md:text-left">
+            <h2 className="text-2xl font-semibold mb-4">Jalan Pintas</h2>
+            <p className="font-semibold mb-2">Contact Info</p>
+            <div className="border-t border-gray-300 my-3 w-1/2 mx-auto md:mx-0"></div>
+            <p className="text-gray-700">0859 6416 8620</p>
+          </div>
+
+          {/* Address */}
+          <div className="text-center md:text-left">
+            <h2 className="font-semibold mb-2">Address</h2>
+            <div className="border-t border-gray-300 my-3 w-1/2 mx-auto md:mx-0"></div>
+            <p className="text-gray-700 leading-relaxed">
+              Gresikan RT 08/ RW 02, Krian, Kemasan
+              <br />
+              Kecamatan Krian
+              <br />
+              Kabupaten Sidoarjo
+              <br />
+              Provinsi Jawa Timur
+            </p>
+          </div>
+
+          {/* Socials */}
+          <div className="text-center md:text-left">
+            <h2 className="font-semibold mb-2">We are on Socials</h2>
+            <div className="border-t border-gray-300 my-3 w-1/2 mx-auto md:mx-0"></div>
+
+            <div className="flex items-center justify-center md:justify-start gap-6 text-gray-800 text-lg">
+              <a href="#" className="flex items-center gap-2 hover:text-black transition">
+                Tiktok
+              </a>
+              <a href="#" className="flex items-center gap-2 hover:text-black transition">
+                Instagram
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </motion.section>
+    </>
   );
 }
-
-export default Footer;

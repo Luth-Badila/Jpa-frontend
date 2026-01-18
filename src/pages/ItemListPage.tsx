@@ -47,13 +47,25 @@ const ItemsListPage: React.FC = () => {
                   <td className="p-3">{item.title}</td>
                   <td className="p-3">{new Date(item.created_at).toLocaleString()}</td>
                   <td className="p-3">
-                    <button onClick={() => navigate(`/items/${item.id}`)} className="mr-2 text-blue-600">
+                    <button
+                      onClick={() => navigate(`/items/${item.id}`)}
+                      className="mr-2 text-white cursor-pointer 
+                    bg-green-600 py-1 px-2 rounded-md"
+                    >
                       View
                     </button>
-                    <button onClick={() => navigate(`/items/${item.id}/edit`)} className="mr-2 text-amber-600">
+                    <button
+                      onClick={() => navigate(`/items/${item.id}/edit`)}
+                      className="mr-2 text-white cursor-pointer 
+                    bg-yellow-400 py-1 px-2 rounded-md"
+                    >
                       Edit
                     </button>
-                    <button onClick={() => handleDelete(item.id)} className="text-red-600">
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="mr-2 text-white cursor-pointer 
+                    bg-red-600 py-1 px-2 rounded-md"
+                    >
                       Delete
                     </button>
                   </td>

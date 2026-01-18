@@ -65,7 +65,7 @@
 //   };
 
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "../../../api/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 import { Product } from "../../../types";
 
 export default function SearchProduct() {
