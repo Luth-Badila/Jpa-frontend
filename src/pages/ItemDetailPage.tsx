@@ -17,11 +17,13 @@ const ItemDetailPage: React.FC = () => {
     })();
   }, [id]);
 
+  console.log(item);
+
   return (
     <DashboardLayout>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Item Detail</h1>
-        <button onClick={() => navigate("/items")} className="px-3 py-1 bg-gray-200 rounded">
+        <button onClick={() => navigate("/items")} className="px-3 py-1 bg-gray-200 rounded cursor-pointer">
           Back
         </button>
       </div>
@@ -30,11 +32,26 @@ const ItemDetailPage: React.FC = () => {
         {!item ? (
           <div>Loading...</div>
         ) : (
-          <>
-            <h2 className="text-xl font-bold">{item.title}</h2>
-            <p className="text-sm text-slate-500 mb-4">{new Date(item.created_at).toLocaleString()}</p>
-            <div className="prose" dangerouslySetInnerHTML={{ __html: item.description ?? "<i>No description</i>" }} />
-          </>
+          <div className="min-h-screen flex flex-col">
+            {/* Image Section */}
+            <div className="w-full h-[50vh] bg-slate-100 flex items-center justify-center">
+              <img src={item.image} alt={item.title} className="max-w-full max-h-full object-contain" />
+            </div>
+
+            {/* Content Section */}
+            <div className="flex-1 container mx-auto px-4 py-6">
+              <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
+
+              <p className="text-sm text-slate-500 mb-6">{new Date(item.created_at).toLocaleString()}</p>
+
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{
+                  __html: item.description ?? "<i>No description</i>",
+                }}
+              />
+            </div>
+          </div>
         )}
       </div>
     </DashboardLayout>

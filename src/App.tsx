@@ -14,6 +14,7 @@ import Product from "./pages/Product";
 import About from "./pages/About";
 import Login from "./components/Login/login";
 import NotFound from "./pages/NotFound";
+import ProductsDashboard from "./pages/ProductsDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {
@@ -33,10 +34,11 @@ const App: React.FC = () => {
       {/* Only Access When Login */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardHome />} />
-        <Route path="/items" element={<ItemsListPage />} />
-        <Route path="/items/new" element={<ItemFormPage />} />
-        <Route path="/items/:id" element={<ItemDetailPage />} />
-        <Route path="/items/:id/edit" element={<ItemFormPage />} />
+        <Route path="/dashboard-items" element={<ItemsListPage />} />
+        <Route path="/dashboard-items/new" element={<ItemFormPage />} />
+        <Route path="/dashboard-items/:id" element={<ItemDetailPage />} />
+        <Route path="/dashboard-items/:id/edit" element={<ItemFormPage />} />
+        <Route path="/dashboard-products" element={<ProductsDashboard />} />
         <Route path="/edit" element={<EditPage />} />
         <Route path="/sandbox" element={<Sandbox />} />
         <Route path="/sandbox-input" element={<SandboxInput />} />
