@@ -1,23 +1,32 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC<{
+  open: boolean;
+  setOpen: (v: boolean) => void;
+}> = ({ open, setOpen }) => {
   return (
-    <aside className="w-56 bg-white border-r min-h-screen">
-      <div className="p-4 font-bold text-lg">My Dashboard</div>
-      <nav className="p-4 space-y-2">
-        <NavLink to="/dashboard" end className={({ isActive }) => (isActive ? "block p-2 rounded bg-slate-100" : "block p-2 rounded hover:bg-sla0")}>
-          Dashboard
-        </NavLink>
-        <NavLink to="/dashboard-items" className={({ isActive }) => (isActive ? "block p-2 rounded bg-slate-100" : "block p-2 rounded hover:bg-slate-50")}>
-          Items
-        </NavLink>
-        <NavLink to="/dashboard-products" className={({ isActive }) => (isActive ? "block p-2 rounded bg-slate-100" : "block p-2 rounded hover:bg-slate-50")}>
-          Products
-        </NavLink>
-        <NavLink to="/edit" className={({ isActive }) => (isActive ? "block p-2 rounded bg-slate-100" : "block p-2 rounded hover:bg-slate-50")}>
-          Edit Site
-        </NavLink>
+    <aside
+      className={`
+        fixed md:static z-40
+        w-56 bg-white border-r min-h-screen
+        transform transition-transform duration-300 mt-18 lg:mt-0
+        ${open ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0
+      `}
+    >
+      <div className="hidden md:block py-5.5 px-4 font-bold text-lg border-b">My Dashboard</div>
+
+      <nav className="py-5.5 space-y-2">
+        {[
+          { to: "/dashboard-items", label: "Items", end: true },
+          { to: "/dashboard-products", label: "Products" },
+          { to: "/edit", label: "Edit Site" },
+        ].map((item) => (
+          <NavLink key={item.to} to={item.to} end={item.end} onClick={() => setOpen(false)} className={({ isActive }) => `block p-2 rounded transition ${isActive ? "bg-slate-100 font-medium" : "hover:bg-slate-50"}`}>
+            {item.label}
+          </NavLink>
+        ))}
       </nav>
     </aside>
   );
