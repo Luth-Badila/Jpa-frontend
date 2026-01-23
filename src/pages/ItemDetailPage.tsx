@@ -17,13 +17,12 @@ const ItemDetailPage: React.FC = () => {
     })();
   }, [id]);
 
-  console.log(item);
 
   return (
     <DashboardLayout>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Item Detail</h1>
-        <button onClick={() => navigate("/items")} className="px-3 py-1 bg-gray-200 rounded cursor-pointer">
+        <button onClick={() => navigate("/dashboard-items")} className="px-3 py-1 bg-gray-200 rounded cursor-pointer">
           Back
         </button>
       </div>

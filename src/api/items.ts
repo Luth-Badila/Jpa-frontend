@@ -31,6 +31,22 @@ export const updateItem = async (id: number, payload: { title?: string; descript
 
 export const deleteItem = async (id: number) => {
   const { error } = await supabase.from("items").delete().eq("id", id);
+
+  if (error) {
+    console.error("Delete failed:", error);
+    throw error;
+  }
+};
+
+export const uploadImage = async (file: File) => {
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${Date.now()}.${fileExt}`;
+
+  const { error } = await supabase.storage.from("Card Image").upload(fileName, file);
+
   if (error) throw error;
-  return true;
+
+  const { data } = supabase.storage.from("Card Image").getPublicUrl(fileName);
+
+  return data.publicUrl;
 };

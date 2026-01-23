@@ -11,8 +11,17 @@ const ItemsListPage: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Hapus item ini?")) return;
-    await deleteItem(id);
-    setData?.(data?.filter((d) => d.id !== id) ?? null);
+
+    try {
+      await deleteItem(id);
+
+      setData?.((prev) => (prev ? prev.filter((item) => item.id !== id) : prev));
+
+      alert("Item berhasil dihapus");
+    } catch (err) {
+      alert("Gagal menghapus item (cek login / policy)");
+      console.error(err);
+    }
   };
 
   return (
@@ -20,7 +29,7 @@ const ItemsListPage: React.FC = () => {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold">Items</h1>
         <div>
-          <button onClick={() => navigate("/items/new")} className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer">
+          <button onClick={() => navigate("/dashboard-items/new")} className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer">
             Create
           </button>
         </div>
@@ -48,14 +57,14 @@ const ItemsListPage: React.FC = () => {
                   <td className="p-3">{new Date(item.created_at).toLocaleString()}</td>
                   <td className="p-3">
                     <button
-                      onClick={() => navigate(`/items/${item.id}`)}
+                      onClick={() => navigate(`/dashboard-items/${item.id}`)}
                       className="mr-2 text-white cursor-pointer 
                     bg-green-600 py-1 px-2 rounded-md"
                     >
                       View
                     </button>
                     <button
-                      onClick={() => navigate(`/items/${item.id}/edit`)}
+                      onClick={() => navigate(`/dashboard-items/${item.id}/edit`)}
                       className="mr-2 text-white cursor-pointer 
                     bg-yellow-400 py-1 px-2 rounded-md"
                     >
