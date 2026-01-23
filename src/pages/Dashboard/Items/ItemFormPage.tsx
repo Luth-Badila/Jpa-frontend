@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import DashboardLayout from "../components/layout/Dashboard/DashboardLayout";
-import { createItem, getItem, updateItem, uploadImage } from "../api/items";
+import DashboardLayout from "../../../components/layout/Dashboard/DashboardLayout";
+import { createItem, getItem, updateItem, uploadImage } from "../../../api/items";
 import { useNavigate, useParams } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "../../../lib/supabaseClient";
 
 type FormValues = {
   title: string;

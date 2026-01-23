@@ -1,20 +1,20 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import DashboardHome from "./pages/DashboardHome";
-import ItemsListPage from "./pages/ItemListPage";
-import ItemFormPage from "./pages/ItemFormPage";
-import ItemDetailPage from "./pages/ItemDetailPage";
+import DashboardHome from "./pages/Dashboard/DashboardHome";
+import ItemsListPage from "./pages/Dashboard/Items/ItemListPage";
+import ItemFormPage from "./pages/Dashboard/Items/ItemFormPage";
+import ItemDetailPage from "./pages/Dashboard/Items/ItemDetailPage";
 import EditPage from "./pages/EditPage";
-import PublicHome from "./pages/PublicHome";
+import PublicHome from "./pages/Public/PublicHome";
 import Sandbox from "./pages/Sandbox";
 import SandboxInput from "./pages/SandboxInput";
-import HowToOrder from "./pages/HowToOrder";
+import HowToOrder from "./pages/Public/HowToOrder";
 import MainInputOrder from "./pages/MainInputOrder";
 import Product from "./pages/Product";
-import About from "./pages/About";
-import Login from "./components/Login/login";
+import About from "./pages/Public/About";
+import Login from "./pages/AuthService/Login/login";
 import NotFound from "./pages/NotFound";
-import ProductsDashboard from "./pages/ProductsDashboard";
+import ProductsDashboard from "./pages/Dashboard/Products/ProductsDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: React.FC = () => {

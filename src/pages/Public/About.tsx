@@ -1,7 +1,7 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import AboutSection from "../components/layout/About/AboutSection";
-import { usePageMeta } from "../hooks/usePageMeta";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import AboutSection from "../../components/layout/About/AboutSection";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 function About() {
   usePageMeta({

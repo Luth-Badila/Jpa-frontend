@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../components/layout/Dashboard/DashboardLayout";
+import DashboardLayout from "../../../components/layout/Dashboard/DashboardLayout";
 import { useParams, useNavigate } from "react-router-dom";
-import { getItem } from "../api/items";
-import { type Item } from "../types";
+import { getItem } from "../../../api/items";
+import { type Item } from "../../../types";
 
 const ItemDetailPage: React.FC = () => {
   const { id } = useParams();
@@ -16,7 +16,6 @@ const ItemDetailPage: React.FC = () => {
       setItem(data);
     })();
   }, [id]);
-
 
   return (
     <DashboardLayout>

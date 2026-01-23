@@ -1,5 +1,5 @@
 import React from "react";
-import LogoutButton from "../../Logout";
+import LogoutButton from "../../../pages/AuthService/Logout";
 
 const Topbar: React.FC = () => {
   return (

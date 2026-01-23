@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { getItems } from "../api/items";
-import { type Item } from "../types";
+import { getItems } from "../../api/items";
+import { type Item } from "../../types";
 
-import Hero from "../components/layout/Home/Hero";
-import Card from "../components/layout/Home/Card";
-import Navbar from "../components/Navbar";
-// import HelpIcon from "../components/HelpIcon";
-import FloatingSidebar from "../components/layout/Floating/FloatingSidebar";
-import Footer from "../components/Footer";
-import { usePageMeta } from "../hooks/usePageMeta";
+import Hero from "../../components/layout/Home/Hero";
+import Card from "../../components/layout/Home/Card";
+import Navbar from "../../components/Navbar";
+import FloatingSidebar from "../../components/layout/Floating/FloatingSidebar";
+import Footer from "../../components/Footer";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 function PublicHome() {
   const [items, setItems] = useState<Item[]>([]);

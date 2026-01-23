@@ -1,5 +1,5 @@
-import Navbar from "../components/Navbar";
-import { usePageMeta } from "../hooks/usePageMeta";
+import Navbar from "../../components/Navbar";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 function HowToOrder() {
   usePageMeta({

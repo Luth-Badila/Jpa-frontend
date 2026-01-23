@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import DashboardLayout from "../components/layout/Dashboard/DashboardLayout";
-import { getItems, deleteItem } from "../api/items";
-import { useFetch } from "../hooks/useFetch";
-import { type Item } from "../types";
+import DashboardLayout from "../../../components/layout/Dashboard/DashboardLayout";
+import { getItems, deleteItem } from "../../../api/items";
+import { useFetch } from "../../../hooks/useFetch";
+import { type Item } from "../../../types";
 
 const ItemsListPage: React.FC = () => {
   const navigate = useNavigate();
