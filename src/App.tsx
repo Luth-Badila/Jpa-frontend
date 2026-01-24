@@ -14,8 +14,10 @@ import Product from "./pages/Product";
 import About from "./pages/Public/About";
 import Login from "./pages/AuthService/Login/login";
 import NotFound from "./pages/NotFound";
-import ProductsDashboard from "./pages/Dashboard/Products/ProductsDashboard";
+import ProductsListPage from "./pages/Dashboard/Products/ProductsListPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ProductFormPage from "./pages/Dashboard/Products/ProductFormPage";
+import ProductDetailPage from "./pages/Dashboard/Products/ProductDetailPage";
 
 const App: React.FC = () => {
   return (
@@ -34,11 +36,16 @@ const App: React.FC = () => {
       {/* Only Access When Login */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardHome />} />
+        {/* Items */}
         <Route path="/dashboard-items" element={<ItemsListPage />} />
         <Route path="/dashboard-items/new" element={<ItemFormPage />} />
         <Route path="/dashboard-items/:id" element={<ItemDetailPage />} />
         <Route path="/dashboard-items/:id/edit" element={<ItemFormPage />} />
-        <Route path="/dashboard-products" element={<ProductsDashboard />} />
+        {/* Products */}
+        <Route path="/dashboard-products" element={<ProductsListPage />} />
+        <Route path="/dashboard-products/new" element={<ProductFormPage />} />
+        <Route path="/dashboard-products/:id" element={<ProductDetailPage />} />
+        <Route path="/dashboard-products/:id/edit" element={<ProductFormPage />} />
         <Route path="/edit" element={<EditPage />} />
         <Route path="/sandbox" element={<Sandbox />} />
         <Route path="/sandbox-input" element={<SandboxInput />} />

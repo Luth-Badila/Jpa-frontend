@@ -12,6 +12,7 @@ export interface Database {
   };
 }
 
+// Item
 export type Item = {
   id: number;
   title: string;
@@ -19,6 +20,24 @@ export type Item = {
   created_at: string;
   image: string;
 };
+
+// Product Section
+export interface Product {
+  id: number;
+  created_at: string;
+  name: string;
+  price: number;
+  category: string;
+  image_product: string;
+}
+
+// About Section
+export interface AboutSection {
+  id: number;
+  title: string;
+  image: string;
+  description: string;
+}
 
 // Navbar
 type NavbarMode = "home" | "order";
@@ -34,23 +53,6 @@ type Tab = {
 export interface TabsProps {
   tabs: Tab[];
   defaultIndex?: number;
-}
-
-// About Section
-export interface AboutSection {
-  id: number;
-  title: string;
-  image: string;
-  description: string;
-}
-
-// Product Section
-export interface Product {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  image_product: string;
 }
 
 // Mini Sidebar
