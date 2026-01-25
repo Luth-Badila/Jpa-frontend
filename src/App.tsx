@@ -18,6 +18,9 @@ import ProductsListPage from "./pages/Dashboard/Products/ProductsListPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProductFormPage from "./pages/Dashboard/Products/ProductFormPage";
 import ProductDetailPage from "./pages/Dashboard/Products/ProductDetailPage";
+import AboutDetailPage from "./pages/Dashboard/AboutSection/AboutDetailPage";
+import AboutListPage from "./pages/Dashboard/AboutSection/AboutListPage";
+import AboutFormPage from "./pages/Dashboard/AboutSection/AboutFormPage";
 
 const App: React.FC = () => {
   return (
@@ -46,6 +49,11 @@ const App: React.FC = () => {
         <Route path="/dashboard-products/new" element={<ProductFormPage />} />
         <Route path="/dashboard-products/:id" element={<ProductDetailPage />} />
         <Route path="/dashboard-products/:id/edit" element={<ProductFormPage />} />
+        {/* About */}
+        <Route path="/dashboard-about" element={<AboutListPage />} />
+        <Route path="/dashboard-about/new" element={<AboutFormPage />} />
+        <Route path="/dashboard-about/:id" element={<AboutDetailPage />} />
+        <Route path="/dashboard-about/:id/edit" element={<AboutFormPage />} />
         <Route path="/edit" element={<EditPage />} />
         <Route path="/sandbox" element={<Sandbox />} />
         <Route path="/sandbox-input" element={<SandboxInput />} />

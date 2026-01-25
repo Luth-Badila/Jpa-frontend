@@ -29,7 +29,7 @@ const ProductsListPage: React.FC = () => {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold">Items</h1>
         <div>
-          <button onClick={() => navigate("/dashboard-items/new")} className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer">
+          <button onClick={() => navigate("/dashboard-products/new")} className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer">
             Create
           </button>
         </div>

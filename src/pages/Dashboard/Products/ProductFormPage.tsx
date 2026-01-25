@@ -73,7 +73,7 @@ const ProductFormPage: React.FC = () => {
         name: vals.name,
         price: vals.price,
         category: vals.category,
-        image: imageUrl,
+        image_product: imageUrl,
       };
 
       if (isEdit && id) {
@@ -84,7 +84,7 @@ const ProductFormPage: React.FC = () => {
         alert("Created");
       }
 
-      navigate("/dashboard-product");
+      navigate("/dashboard-products");
     } catch (err) {
       alert("Error: " + (err as Error).message);
     }
@@ -134,7 +134,7 @@ const ProductFormPage: React.FC = () => {
             {isEdit ? "Update" : "Create"}
           </button>
 
-          <button type="button" onClick={() => navigate("/dashboard-items")} className="px-4 py-2 bg-gray-200 rounded cursor-pointer">
+          <button type="button" onClick={() => navigate("/dashboard-products")} className="px-4 py-2 bg-gray-200 rounded cursor-pointer">
             Cancel
           </button>
         </div>

@@ -13,7 +13,7 @@ export const getProduct = async (id: number): Promise<Product | null> => {
   return data || null;
 };
 
-export const createProduct = async (payload: { name?: string; price?: number; category?: string; image_product?: FileList }) => {
+export const createProduct = async (payload: { name?: string; price?: number; category?: string; image_product?: FileList | string | null }) => {
   const { data, error } = await supabase
     .from("products")
     .insert([{ ...payload }])
@@ -23,7 +23,7 @@ export const createProduct = async (payload: { name?: string; price?: number; ca
   return data;
 };
 
-export const updateProduct = async (id: number, payload: { name?: string; price?: number; category?: string; image_product?: FileList }) => {
+export const updateProduct = async (id: number, payload: { name?: string; price?: number; category?: string; image_product?: FileList | string | null }) => {
   const { data, error } = await supabase.from("products").update(payload).eq("id", id).select().single();
   if (error) throw error;
   return data;
