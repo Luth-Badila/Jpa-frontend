@@ -21,6 +21,7 @@ const Sidebar: React.FC<{
         {[
           { to: "/dashboard-items", label: "Items", end: true },
           { to: "/dashboard-products", label: "Products" },
+          { to: "/dashboard-about", label: "About" },
           { to: "/edit", label: "Edit Site" },
         ].map((item) => (
           <NavLink key={item.to} to={item.to} end={item.end} onClick={() => setOpen(false)} className={({ isActive }) => `block p-2 rounded transition ${isActive ? "bg-slate-100 font-medium" : "hover:bg-slate-50"}`}>

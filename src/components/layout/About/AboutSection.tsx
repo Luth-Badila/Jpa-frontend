@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { supabase } from "../../../lib/supabaseClient";
-import { AboutSection } from "../../../types";
+import { About } from "../../../types";
 
 export default function AboutSection() {
-  const [sections, setSections] = useState<AboutSection[]>([]);
+  const [sections, setSections] = useState<About[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export default function AboutSection() {
   }, []);
 
   const fetchSections = async () => {
-    const { data, error } = await supabase.from("about_section").select("*").order("id", { ascending: true });
+    const { data, error } = await supabase.from("about").select("*").order("id", { ascending: true });
 
     if (error) console.error(error);
     else setSections(data);

@@ -31,13 +31,14 @@ export interface Product {
   image_product: string;
 }
 
-// About Section
-export interface AboutSection {
+// About
+export type About = {
   id: number;
   title: string;
+  description?: string;
+  created_at: string;
   image: string;
-  description: string;
-}
+};
 
 // Navbar
 type NavbarMode = "home" | "order";

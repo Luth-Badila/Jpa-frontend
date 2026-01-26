@@ -20,7 +20,7 @@ const ProductDetailPage: React.FC = () => {
   return (
     <DashboardLayout>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Item Detail</h1>
+        <h1 className="text-2xl font-semibold">Product Detail</h1>
         <button onClick={() => navigate("/dashboard-products")} className="px-3 py-1 bg-gray-200 rounded cursor-pointer">
           Back
         </button>

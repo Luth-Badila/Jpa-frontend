@@ -54,6 +54,7 @@ const App: React.FC = () => {
         <Route path="/dashboard-about/new" element={<AboutFormPage />} />
         <Route path="/dashboard-about/:id" element={<AboutDetailPage />} />
         <Route path="/dashboard-about/:id/edit" element={<AboutFormPage />} />
+        {/* Tidak dieperlukan sebenarnya */}
         <Route path="/edit" element={<EditPage />} />
         <Route path="/sandbox" element={<Sandbox />} />
         <Route path="/sandbox-input" element={<SandboxInput />} />
