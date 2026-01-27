@@ -9,7 +9,7 @@ import PublicHome from "./pages/Public/PublicHome";
 import Sandbox from "./pages/Sandbox";
 import SandboxInput from "./pages/SandboxInput";
 import HowToOrder from "./pages/Public/HowToOrder";
-import MainInputOrder from "./pages/MainInputOrder";
+import MainInputOrder from "./pages/Public/MainInputOrder";
 import Product from "./pages/Product";
 import About from "./pages/Public/About";
 import Login from "./pages/AuthService/Login/login";

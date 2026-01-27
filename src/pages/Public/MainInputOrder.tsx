@@ -1,6 +1,6 @@
-import Navbar from "../components/Navbar";
-import InputOrder from "../components/InputOrder";
-import { usePageMeta } from "../hooks/usePageMeta";
+import Navbar from "../../components/Navbar";
+import InputOrder from "../../components/InputOrder";
+import { usePageMeta } from "../../hooks/usePageMeta";
 
 function MainInputOrder() {
   usePageMeta({

@@ -19,12 +19,13 @@ export default function CanvasEditor() {
   const mockupRef = useRef<fabric.Image | null>(null);
 
   const [productType, setProductType] = useState<ProductType>("tshirt");
-  const [title, setTitle] = useState("");
+  const [buyer_name, setBuyer_name] = useState("");
   const [price, setPrice] = useState(50000);
   const [total_orders, setTotalOrders] = useState<number>(1);
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [overlayFile, setOverlayFile] = useState<File | null>(null);
 
   // INIT CANVAS
   useEffect(() => {
@@ -43,62 +44,6 @@ export default function CanvasEditor() {
   }, []);
 
   // LOAD MOCKUP
-  // useEffect(() => {
-  //   const canvas = fabricRef.current;
-  //   if (!canvas) return;
-
-  //   // Hapus mockup lama jika ada
-  //   if (mockupRef.current) {
-  //     canvas.remove(mockupRef.current);
-  //     mockupRef.current = null;
-  //   }
-
-  //   const url = mockupImages[productType];
-
-  //   // fabric.Image.fromURL(url, (img) => {
-  //   //   if (!fabricRef.current) return;
-
-  //   //   // Atur mockup (tidak bisa dipilih)
-  //   //   img.set({
-  //   //     selectable: false,
-  //   //     evented: false,
-  //   //   });
-
-  //   //   img.scaleToWidth(canvas.getWidth());
-
-  //   //   mockupRef.current = img;
-
-  //   //   canvas.add(img);          // tambahkan mockup
-  //   //   canvas.sendToBack(img);   // pastikan selalu di belakang
-  //   //   canvas.renderAll();
-  //   // });
-  //   fabric.Image.fromURL(url, (img) => {
-  //     const canvas = fabricRef.current;
-
-  //     if (!canvas || !canvas.contextContainer) return;
-
-  //     canvas.renderAll();
-
-  //     img.set({
-  //       selectable: false,
-  //       evented: false,
-  //     });
-
-  //     img.scaleToWidth(canvas.getWidth());
-
-  //     mockupRef.current = img;
-
-  //     canvas.add(img);
-  //     canvas.sendToBack(img);
-
-  //     // SAFE RENDER
-  //     if (!canvas || !canvas.contextContainer) {
-  //       canvas.renderAll();
-  //     }
-  //   });
-  // }, [productType]);
-  // LOAD MOCKUP
-  // LOAD MOCKUP FIX 100% WORKING
   useEffect(() => {
     const canvas = fabricRef.current;
     if (!canvas) return;
@@ -139,7 +84,7 @@ export default function CanvasEditor() {
 
         canvas.renderAll();
       },
-      { crossOrigin: "anonymous" }
+      { crossOrigin: "anonymous" },
     );
   }, [productType]);
 
@@ -151,10 +96,13 @@ export default function CanvasEditor() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // SIMPAN FILE ASLI
+    setOverlayFile(file);
+
     const reader = new FileReader();
     reader.onload = () => {
       fabric.Image.fromURL(reader.result as string, (img) => {
-        img.scaleToWidth(200);
+        img.scaleToWidth(200); // hanya preview
         img.set({
           left: 150,
           top: 150,
@@ -195,54 +143,90 @@ export default function CanvasEditor() {
     const canvas = fabricRef.current;
     if (!canvas) return;
 
-    if (!title || !email || !whatsapp) {
+    if (!buyer_name || !email || !whatsapp) {
       alert("Form masih ada yang kosong!");
+      return;
+    }
+
+    if (!overlayFile) {
+      alert("Overlay belum diupload!");
       return;
     }
 
     setLoading(true);
 
     try {
-      // Export canvas → PNG
-      const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
-      const blob = await (await fetch(dataUrl)).blob();
-      const fileName = `order_${Date.now()}.png`;
+      /* =========================
+       1️⃣ UPLOAD OVERLAY ASLI
+    ========================= */
+      const overlayName = `overlay/overlay_${Date.now()}_${overlayFile.name}`;
 
-      // Upload ke bucket "images"
-      const { error: uploadError } = await supabase.storage.from("images").upload(`orders/${fileName}`, blob, {
+      const { error: overlayError } = await supabase.storage.from("order_images").upload(overlayName, overlayFile, {
+        contentType: overlayFile.type,
+        upsert: false,
+      });
+
+      if (overlayError) throw overlayError;
+
+      const { data: overlayUrlData } = supabase.storage.from("order_images").getPublicUrl(overlayName);
+
+      /* =========================
+       2️⃣ EXPORT PREVIEW CANVAS
+    ========================= */
+      const previewDataUrl = canvas.toDataURL({
+        format: "png",
+        quality: 1,
+      });
+
+      const previewBlob = await (await fetch(previewDataUrl)).blob();
+      const previewName = `preview/order_${Date.now()}.png`;
+
+      const { error: previewError } = await supabase.storage.from("order_images").upload(previewName, previewBlob, {
         contentType: "image/png",
         upsert: false,
       });
 
-      if (uploadError) throw uploadError;
+      if (previewError) throw previewError;
 
-      // Get public link
-      const { data: urlData } = supabase.storage.from("images").getPublicUrl(`orders/${fileName}`);
+      const { data: previewUrlData } = supabase.storage.from("order_images").getPublicUrl(previewName);
 
-      const imageUrl = urlData.publicUrl;
-
-      // Insert ke database
+      /* =========================
+       3️⃣ INSERT DATABASE
+    ========================= */
       const { error: insertError } = await supabase.from("orders").insert([
         {
-          title,
+          buyer_name,
           product_type: productType,
           price,
           total_orders,
           whatsapp,
           email,
-          image_url: imageUrl,
+          preview_url: previewUrlData.publicUrl,
+          overlay_url: overlayUrlData.publicUrl,
         },
       ]);
 
       if (insertError) throw insertError;
 
-      alert("Order berhasil dikirim!");
-      setTitle("");
-      setProductType("tshirt");
+      /* =========================
+       4️⃣ RESET CANVAS & FORM
+    ========================= */
+      canvas.getObjects().forEach((obj) => {
+        if (obj !== mockupRef.current) {
+          canvas.remove(obj);
+        }
+      });
+      canvas.renderAll();
+
+      setOverlayFile(null);
+      setBuyer_name("");
       setEmail("");
-      setTotalOrders(1);
       setWhatsapp("");
+      setTotalOrders(1);
       setPrice(50000);
+      setProductType("tshirt");
+
+      alert("Order berhasil dikirim!");
     } catch (err) {
       console.error(err);
       alert("Gagal mengirim order!");
@@ -258,8 +242,8 @@ export default function CanvasEditor() {
         <h2 className="font-bold text-xl">Form Order</h2>
 
         <div>
-          <label>Title</label>
-          <input className="border p-2 w-full mt-1" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <label>Nama Pembeli</label>
+          <input className="border p-2 w-full mt-1" value={buyer_name} onChange={(e) => setBuyer_name(e.target.value)} />
         </div>
 
         <div>
