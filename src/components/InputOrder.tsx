@@ -22,7 +22,6 @@ export default function CanvasEditor() {
   const [buyer_name, setBuyer_name] = useState("");
   const [price, setPrice] = useState(50000);
   const [total_orders, setTotalOrders] = useState<number>(1);
-  const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [loading, setLoading] = useState(false);
   const [overlayFile, setOverlayFile] = useState<File | null>(null);
@@ -143,7 +142,7 @@ export default function CanvasEditor() {
     const canvas = fabricRef.current;
     if (!canvas) return;
 
-    if (!buyer_name || !email || !whatsapp) {
+    if (!buyer_name || !price || !whatsapp) {
       alert("Form masih ada yang kosong!");
       return;
     }
@@ -200,7 +199,6 @@ export default function CanvasEditor() {
           price,
           total_orders,
           whatsapp,
-          email,
           preview_url: previewUrlData.publicUrl,
           overlay_url: overlayUrlData.publicUrl,
         },
@@ -220,7 +218,6 @@ export default function CanvasEditor() {
 
       setOverlayFile(null);
       setBuyer_name("");
-      setEmail("");
       setWhatsapp("");
       setTotalOrders(1);
       setPrice(50000);
@@ -282,11 +279,6 @@ export default function CanvasEditor() {
         <div>
           <label>Whatsapp</label>
           <input className="border p-2 w-full mt-1" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
-        </div>
-
-        <div>
-          <label>Email</label>
-          <input className="border p-2 w-full mt-1" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
 
         <button onClick={handleSubmit} disabled={loading} className="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded mt-4 cursor-pointer">

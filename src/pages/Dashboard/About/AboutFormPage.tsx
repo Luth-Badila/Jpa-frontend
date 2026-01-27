@@ -11,7 +11,7 @@ type FormValues = {
   image?: FileList;
 };
 
-const ItemFormPage: React.FC = () => {
+const AboutFormPage: React.FC = () => {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
@@ -133,4 +133,4 @@ const ItemFormPage: React.FC = () => {
   );
 };
 
-export default ItemFormPage;
+export default AboutFormPage;

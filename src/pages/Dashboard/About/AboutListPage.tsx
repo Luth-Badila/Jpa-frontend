@@ -5,7 +5,7 @@ import { getAbouts, deleteAbout } from "../../../api/about";
 import { useFetch } from "../../../hooks/useFetch";
 import { type About } from "../../../types";
 
-const ItemsListPage: React.FC = () => {
+const AboutListPage: React.FC = () => {
   const navigate = useNavigate();
   const { data, loading, error, setData } = useFetch<About[]>(getAbouts, []);
 
@@ -57,7 +57,7 @@ const ItemsListPage: React.FC = () => {
                   <td className="p-3">{new Date(item.created_at).toLocaleString()}</td>
                   <td className="p-3">
                     <button
-                      onClick={() => navigate(`/dashboard-items/${item.id}`)}
+                      onClick={() => navigate(`/dashboard-about/${item.id}`)}
                       className="mr-2 text-white cursor-pointer 
                     bg-green-600 py-1 px-2 rounded-md"
                     >
@@ -94,4 +94,4 @@ const ItemsListPage: React.FC = () => {
   );
 };
 
-export default ItemsListPage;
+export default AboutListPage;

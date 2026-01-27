@@ -40,6 +40,19 @@ export type About = {
   image: string;
 };
 
+// Order
+export type Order = {
+  id: number;
+  created_at: string;
+  buyer_name: string;
+  price?: number;
+  total_orders?: number;
+  whatsapp?: number;
+  overlay_url?: string;
+  preview_url?: string;
+  product_type?: string;
+};
+
 // Navbar
 type NavbarMode = "home" | "order";
 export interface NavbarProps {
