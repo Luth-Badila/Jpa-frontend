@@ -64,7 +64,7 @@ const OrderListPage: React.FC = () => {
                       View
                     </button>
                     <button
-                      onClick={() => navigate(`/dashboard-items/${item.id}/edit`)}
+                      onClick={() => navigate(`/dashboard-order/${item.id}/edit`)}
                       className="mr-2 text-white cursor-pointer 
                     bg-yellow-400 py-1 px-2 rounded-md"
                     >
