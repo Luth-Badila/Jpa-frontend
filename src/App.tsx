@@ -1,11 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
-import EditPage from "./pages/EditPage";
 import PublicHome from "./pages/Public/PublicHome";
-import Sandbox from "./pages/Sandbox";
-import SandboxInput from "./pages/SandboxInput";
-import HowToOrder from "./pages/Public/HowToOrder";
 import MainInputOrder from "./pages/Public/MainInputOrder";
 import Product from "./pages/Product";
 import About from "./pages/Public/About";
@@ -27,6 +23,8 @@ import AboutFormPage from "./pages/Dashboard/About/AboutFormPage";
 // Order
 import OrderListPage from "./pages/Dashboard/Order/OrderListPage";
 import OrderDetailPage from "./pages/Dashboard/Order/OrderDetailPage";
+// How to order
+import HowToOrder from "./pages/Public/HowToOrder";
 
 const App: React.FC = () => {
   return (
@@ -63,10 +61,9 @@ const App: React.FC = () => {
         {/* Order */}
         <Route path="/dashboard-order" element={<OrderListPage />} />
         <Route path="/dashboard-order/:id" element={<OrderDetailPage />} />
+        {/* How To Order */}
+        <Route path="/how-to-order" element={<HowToOrder />} />
         {/* Tidak dieperlukan sebenarnya */}
-        <Route path="/edit" element={<EditPage />} />
-        <Route path="/sandbox" element={<Sandbox />} />
-        <Route path="/sandbox-input" element={<SandboxInput />} />
       </Route>
 
       {/* 404 NOT FOUND */}

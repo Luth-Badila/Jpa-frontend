@@ -155,9 +155,7 @@ export default function CanvasEditor() {
     setLoading(true);
 
     try {
-      /* =========================
-       1️⃣ UPLOAD OVERLAY ASLI
-    ========================= */
+      /* 1️⃣ UPLOAD OVERLAY ASLI */
       const overlayName = `overlay/overlay_${Date.now()}_${overlayFile.name}`;
 
       const { error: overlayError } = await supabase.storage.from("order_images").upload(overlayName, overlayFile, {
@@ -169,9 +167,7 @@ export default function CanvasEditor() {
 
       const { data: overlayUrlData } = supabase.storage.from("order_images").getPublicUrl(overlayName);
 
-      /* =========================
-       2️⃣ EXPORT PREVIEW CANVAS
-    ========================= */
+      /* 2️⃣ EXPORT PREVIEW CANVAS */
       const previewDataUrl = canvas.toDataURL({
         format: "png",
         quality: 1,
@@ -189,9 +185,7 @@ export default function CanvasEditor() {
 
       const { data: previewUrlData } = supabase.storage.from("order_images").getPublicUrl(previewName);
 
-      /* =========================
-       3️⃣ INSERT DATABASE
-    ========================= */
+      /* 3️⃣ INSERT DATABASE */
       const { error: insertError } = await supabase.from("orders").insert([
         {
           buyer_name,
@@ -206,9 +200,7 @@ export default function CanvasEditor() {
 
       if (insertError) throw insertError;
 
-      /* =========================
-       4️⃣ RESET CANVAS & FORM
-    ========================= */
+      /* 4️⃣ RESET CANVAS & FORM */
       canvas.getObjects().forEach((obj) => {
         if (obj !== mockupRef.current) {
           canvas.remove(obj);
@@ -249,7 +241,7 @@ export default function CanvasEditor() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-700">Upload Overlay</label>
+          <label className="text-sm font-medium text-gray-700">Upload Gambar</label>
 
           <label className="flex items-center gap-2 justify-center w-full px-4 py-2 bg-yellow-400 text-white rounded-lg cursor-pointer hover:bg-yellow-500 transition">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">

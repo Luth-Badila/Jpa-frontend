@@ -12,7 +12,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Product", href: "/product", isRoute: true },
-    { label: "How to order", href: "/", isRoute: true },
+    { label: "How to order", href: "/how-to-order", isRoute: true },
   ];
 
   // Menu untuk halaman order (full route)
@@ -20,7 +20,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
     { label: "Home", href: "/", isRoute: true },
     { label: "About", href: "/about", isRoute: true },
     { label: "Product", href: "/product", isRoute: true },
-    { label: "How to order", href: "/", isRoute: true },
+    { label: "How to order", href: "/how-to-order", isRoute: true },
   ];
 
   const menus = mode === "home" ? homeMenus : orderMenus;
@@ -46,7 +46,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
             <a key={menu.label} href={menu.href} className="hover:text-white transition">
               {menu.label}
             </a>
-          )
+          ),
         )}
       </ul>
 
@@ -111,7 +111,7 @@ export default function Navbar({ mode = "home" }: NavbarProps) {
                       {menu.label}
                     </a>
                   </motion.li>
-                )
+                ),
               )}
             </motion.ul>
 
